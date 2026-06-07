@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Traitement en cours · Oreus</title>
+<meta name="description" content="Oreus traite votre vidéo et génère les sous-titres.">
+<meta name="robots" content="noindex, follow">
+<meta name="author" content="Oreus">
+<meta name="theme-color" content="#BE5A3C">
+<link rel="canonical" href="https://oreus.shadrakbessanh.me/processing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oreus">
+<meta property="og:title" content="Traitement en cours · Oreus">
+<meta property="og:description" content="Oreus traite votre vidéo et génère les sous-titres.">
+<meta property="og:url" content="https://oreus.shadrakbessanh.me/processing">
+<meta property="og:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Traitement en cours · Oreus">
+<meta name="twitter:description" content="Oreus traite votre vidéo et génère les sous-titres.">
+<meta name="twitter:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;--fg:hsl(0,0%,13%);--fg2:hsl(0,0%,32%);--fg3:hsl(0,0%,52%);
+  --primary:hsl(14,52%,49%);--primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,88%);
+  --border:hsl(40,14%,83%);--muted:hsl(40,16%,91%);
+  --green:hsl(142,50%,40%);--green-lt:hsl(142,50%,95%);--green-bd:hsl(142,50%,75%);
+  --amber:hsl(38,92%,50%);--amber-lt:hsl(38,92%,96%);--amber-bd:hsl(38,92%,75%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.05);
+  --r:8px;--nh:60px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100dvh}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pgshim{to{background-position:200% center}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.au{animation:fadeUp .4s ease both}
+.d1{animation-delay:.06s}.d2{animation-delay:.14s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:rgba(250,248,244,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px}
+.logo-box{width:32px;height:32px;border-radius:var(--r);background:var(--primary);display:flex;align-items:center;justify-content:center}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--fg);text-transform:uppercase;margin-left:9px}
+.nav-step{margin-left:auto;font-size:12px;font-weight:500;color:var(--fg3);display:flex;align-items:center;gap:6px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+.pgb{position:fixed;top:var(--nh);left:0;right:0;z-index:99;height:3px;background:var(--muted)}
+.pgf{height:100%;background:linear-gradient(90deg,var(--primary),hsl(14,62%,62%),var(--primary));background-size:200%;animation:pgshim 1.6s linear infinite}
+
+.proc-layout{
+  min-height:100dvh;
+  display:flex;align-items:center;justify-content:center;
+  padding:calc(var(--nh)+3px+32px) clamp(16px,4vw,40px) 40px;
+}
+.proc-inner{
+  width:100%;max-width:900px;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,48px);
+  align-items:center;
+}
+@media(max-width:640px){.proc-inner{grid-template-columns:1fr;gap:24px}.proc-layout{align-items:flex-start;padding-top:calc(var(--nh) + 3px + 32px)}}
+
+.ring-col{display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.ring-wrap{position:relative;width:clamp(160px,20vw,220px);height:clamp(160px,20vw,220px)}
+.rsvg{transform:rotate(-90deg);width:100%;height:100%}
+.rbg{fill:none;stroke:var(--muted);stroke-width:9}
+.rfill{fill:none;stroke:var(--primary);stroke-width:9;stroke-linecap:round}
+.rctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.rpct{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,6vw,56px);font-weight:700;letter-spacing:-.05em;color:var(--primary);line-height:1}
+.rsym{font-size:13px;color:var(--fg3);font-weight:500}
+.phase-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,2.2vw,20px);font-weight:700;color:var(--fg)}
+.phase-sub{font-size:13px;color:var(--fg3);margin-top:5px;line-height:1.65;max-width:260px}
+
+.steps-col{display:flex;flex-direction:column;gap:12px}
+.step{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);transition:border-color .3s,background .3s,box-shadow .3s}
+.step.active{border-color:hsl(14,52%,70%);background:hsl(14,52%,98%);box-shadow:0 0 0 3px hsl(14,52%,49%,.08),var(--shadow)}
+.step.done{border-color:var(--green-bd);background:var(--green-lt)}
+.step-num{width:38px;height:38px;border-radius:var(--r);flex-shrink:0;background:var(--muted);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--fg3);transition:all .3s}
+.step.active .step-num{background:hsl(14,52%,92%);border-color:hsl(14,52%,72%);color:var(--primary)}
+.step.done .step-num{background:hsl(142,50%,86%);border-color:var(--green-bd);color:var(--green)}
+.step-label{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg)}
+.step-sub{font-size:12px;color:var(--fg3);margin-top:3px;line-height:1.5}
+.step-badge{flex-shrink:0;font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--muted);color:var(--fg3);border:1px solid var(--border);transition:all .3s}
+.step.active .step-badge{background:hsl(14,52%,92%);color:var(--primary);border-color:hsl(14,52%,72%)}
+.step.done .step-badge{background:hsl(142,50%,86%);color:var(--green);border-color:var(--green-bd)}
+
+#queueState{display:none;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.queue-orb{
+  width:clamp(130px,18vw,180px);height:clamp(130px,18vw,180px);
+  border-radius:50%;
+  background:conic-gradient(var(--amber) 0%, var(--amber-lt) 100%);
+  border:3px solid var(--amber-bd);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  animation:pulse 2s ease-in-out infinite;
+  box-shadow:0 0 0 8px hsl(38,92%,50%,.08);
+}
+.queue-num{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,6vw,52px);font-weight:700;color:var(--amber);line-height:1}
+.queue-label{font-size:11px;font-weight:600;color:hsl(38,60%,40%);text-transform:uppercase;letter-spacing:.06em}
+.queue-info{max-width:260px}
+.queue-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,2.2vw,20px);font-weight:700;color:var(--fg)}
+.queue-sub{font-size:13px;color:var(--fg3);margin-top:6px;line-height:1.65}
+
+.err-box{width:100%;background:var(--card);border:1px solid hsl(0,60%,88%);border-radius:12px;padding:28px;text-align:center;grid-column:1/-1}
+.err-box h3{color:hsl(0,60%,40%);font-size:17px;font-weight:700;margin-bottom:10px}
+.err-box p{font-size:13px;color:var(--fg3);line-height:1.65}
+.btn-retry{margin-top:18px;padding:11px 28px;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-retry:hover{background:hsl(14,52%,44%)}
+
+@keyframes spin2{to{transform:rotate(360deg)}}
+.spin-ic{width:14px;height:14px;border-radius:50%;border:2px solid var(--primary);border-top-color:transparent;animation:spin2 .7s linear infinite;display:inline-block}
+.lang-wrap{position:relative;flex-shrink:0}
+.lang-trigger{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--fg);background:var(--muted);border:1.5px solid var(--border);cursor:pointer;padding:9px 16px;border-radius:10px;transition:all .15s;letter-spacing:.02em;white-space:nowrap}
+.lang-trigger:hover{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-wrap.open .lang-trigger{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-chev{transition:transform .2s;opacity:.6}
+.lang-wrap.open .lang-chev{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;right:0;top:calc(100% + 8px);width:160px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.13);display:none;overflow:hidden;z-index:500;padding:4px}
+.lang-wrap.open .lang-dropdown{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg2);background:transparent;border:none;cursor:pointer;text-align:left;transition:background .12s,color .12s;border-radius:8px}
+.lang-item:hover{background:var(--muted);color:var(--fg)}
+.lang-item.active{background:var(--primary-lt);color:var(--primary)}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.lang-item.active .lang-dot{background:var(--primary)}
+.logo-img{width:34px;height:34px;border-radius:9px;display:block;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+<nav>
+  <img class="logo-img" src="/logo.png" width="34" height="34" alt="Oreus logo">
+  <span class="logo-name">Oreus</span>
+
+  <div class="nav-step" id="navStep"><div class="nav-dot"></div><span data-i18n="nav_step">Étape 3 sur 3</span></div>
+  <div class="lang-wrap" id="langWrap">
+  <button class="lang-trigger" onclick="toggleLangMenu()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <span id="langCurrent">FR</span>
+    <svg class="lang-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+  </button>
+  <div class="lang-dropdown">
+    <button class="lang-item active" id="langItemFr" onclick="setLang('fr')"><span class="lang-dot"></span>Fran&#231;ais</button>
+    <button class="lang-item" id="langItemEn" onclick="setLang('en')"><span class="lang-dot"></span>English</button>
+  </div>
+</div>
+</nav>
+<div class="pgb"><div class="pgf" style="width:100%"></div></div>
+
+<div class="proc-layout">
+  <div class="proc-inner" id="procInner">
+
+    <div class="ring-col au d1" id="ringCol">
+      <div id="procState" style="display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center">
+        <div class="ring-wrap">
+          <svg class="rsvg" viewBox="0 0 220 220">
+            <circle class="rbg" cx="110" cy="110" r="96"/>
+            <circle class="rfill" id="rf" cx="110" cy="110" r="96" stroke-dasharray="603" stroke-dashoffset="603"/>
+          </svg>
+          <div class="rctr">
+            <span class="rpct" id="rp">0</span>
+            <span class="rsym">%</span>
+          </div>
+        </div>
+        <div>
+          <p class="phase-title" id="phTitle" data-i18n="starting">Démarrage...</p>
+          <p class="phase-sub" id="phSub" data-i18n="preparing">Préparation de votre vidéo</p>
+        </div>
+      </div>
+
+      <div id="queueState">
+        <div class="queue-orb">
+          <span class="queue-num" id="queueNum">...</span>
+          <span class="queue-label" data-i18n="waiting">en attente</span>
+        </div>
+        <div class="queue-info">
+          <p class="queue-title" data-i18n="queue_title">File d'attente</p>
+          <p class="queue-sub" id="queueSub" data-i18n="queue_sub">Votre vidéo attend un slot de traitement. Cela démarre automatiquement.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="steps-col au d2" id="stepsCol">
+      <div class="step" id="c1">
+        <div class="step-num" id="n1">1</div>
+        <div style="flex:1"><div class="step-label" data-i18n="step1_label">Transcription audio</div><div class="step-sub" id="sb1" data-i18n="pending">En attente</div></div>
+        <span class="step-badge" id="bd1" data-i18n="pending">En attente</span>
+      </div>
+      <div class="step" id="c2">
+        <div class="step-num" id="n2">2</div>
+        <div style="flex:1"><div class="step-label" data-i18n="step2_label">Traduction</div><div class="step-sub" id="sb2" data-i18n="pending">En attente</div></div>
+        <span class="step-badge" id="bd2" data-i18n="pending">En attente</span>
+      </div>
+      <div class="step" id="c3">
+        <div class="step-num" id="n3">3</div>
+        <div style="flex:1"><div class="step-label" data-i18n="step3_label">Incrustation sous-titres</div><div class="step-sub" id="sb3" data-i18n="pending">En attente</div></div>
+        <span class="step-badge" id="bd3" data-i18n="pending">En attente</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const C = 2 * Math.PI * 96;
+const params = new URLSearchParams(location.search);
+const job = params.get('job'), src = params.get('src') || 'auto', tgt = params.get('tgt') || 'fr', style = params.get('style') || 'mrbeast', subLang = params.get('sub_lang') || '', subSize = params.get('size') || 'medium', subColor = params.get('color') || '';
+if (!job) location.href = '/upload';
+
+let dp = 0, tp = 0, currentStatus = 'queued';
+(function loop() {
+  if (dp < tp) {
+    dp = Math.min(dp + 0.5, tp);
+    document.getElementById('rf').style.strokeDashoffset = C * (1 - dp / 100);
+    document.getElementById('rp').textContent = Math.floor(dp);
+  }
+  requestAnimationFrame(loop);
+})();
+
+var _L = localStorage.getItem('oreus_lang') || 'fr';
+
+const PL_FR  = [null, 'Transcription audio...', 'Traduction en cours...', 'Incrustation des sous-titres...'];
+const PS_FR  = [null, 'Analyse du contenu audio', 'Adaptation dans la langue cible', 'Génération du fichier final'];
+const PL_EN  = [null, 'Audio transcription...', 'Translation in progress...', 'Burning in subtitles...'];
+const PS_EN  = [null, 'Analyzing audio content', 'Adapting to target language', 'Generating final file'];
+
+function getPL(){ return _L === 'en' ? PL_EN : PL_FR; }
+function getPS(){ return _L === 'en' ? PS_EN : PS_FR; }
+
+const CHK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>';
+
+function showQueued(pos) {
+  if (currentStatus === 'queued') return;
+  currentStatus = 'queued';
+  document.getElementById('procState').style.display = 'none';
+  document.getElementById('queueState').style.display = 'flex';
+  document.getElementById('queueState').style.flexDirection = 'column';
+  document.getElementById('queueState').style.alignItems = 'center';
+  document.getElementById('queueState').style.gap = '20px';
+  document.getElementById('queueState').style.textAlign = 'center';
+  var ql = _L === 'en' ? 'Queue' : "File d'attente";
+  document.getElementById('navStep').innerHTML = '<div class="nav-dot" style="background:var(--amber)"></div>' + ql;
+}
+
+function showProcessing() {
+  if (currentStatus === 'processing') return;
+  currentStatus = 'processing';
+  document.getElementById('queueState').style.display = 'none';
+  document.getElementById('procState').style.display = 'flex';
+  document.getElementById('procState').style.flexDirection = 'column';
+  document.getElementById('procState').style.alignItems = 'center';
+  document.getElementById('procState').style.gap = '20px';
+  var stepTxt = _L === 'en' ? 'Step 3 of 3' : 'Étape 3 sur 3';
+  document.getElementById('navStep').innerHTML = '<div class="nav-dot"></div>' + stepTxt;
+}
+
+function setStep(step, pct) {
+  tp = pct;
+  var PL = getPL(), PS = getPS();
+  if (step >= 1 && step <= 3) {
+    document.getElementById('phTitle').textContent = PL[step];
+    document.getElementById('phSub').textContent = PS[step];
+  }
+  var pendingTxt = _L === 'en' ? 'Pending' : 'En attente';
+  var doneTxt = _L === 'en' ? 'Done' : 'Terminé';
+  var inProgressTxt = _L === 'en' ? 'In progress' : 'En cours';
+  [1, 2, 3].forEach(i => {
+    const c = document.getElementById('c'+i), n = document.getElementById('n'+i),
+          sb = document.getElementById('sb'+i), bd = document.getElementById('bd'+i);
+    if (i < step) {
+      c.className = 'step done'; n.innerHTML = CHK;
+      sb.textContent = doneTxt; bd.innerHTML = CHK + ' ' + doneTxt;
+    } else if (i === step) {
+      c.className = 'step active'; n.innerHTML = '<div class="spin-ic"></div>';
+      sb.textContent = PS[i] || inProgressTxt; bd.textContent = inProgressTxt;
+    } else {
+      c.className = 'step'; n.textContent = i;
+      sb.textContent = pendingTxt; bd.textContent = pendingTxt;
+    }
+  });
+}
+
+function showError(msg) {
+  document.getElementById('ringCol').style.display = 'none';
+  document.getElementById('stepsCol').style.display = 'none';
+  var errTitle = _L === 'en' ? 'An error occurred' : 'Une erreur est survenue';
+  var retryTxt = _L === 'en' ? 'Try again' : 'Réessayer';
+  const b = document.createElement('div'); b.className = 'err-box au';
+  b.innerHTML = '<h3>' + errTitle + '</h3><p>' + msg + '</p><button class="btn-retry" onclick="location.href=\'/upload\'">' + retryTxt + '</button>';
+  document.getElementById('procInner').appendChild(b);
+}
+
+async function launch() {
+  try {
+    const r = await fetch('/api/process', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ job_id: job, src_lang: src, tgt_lang: tgt, sub_style: style, sub_lang: subLang, sub_size: subSize, sub_color: subColor })
+    });
+    if (!r.ok) { const d = await r.json().catch(() => ({})); showError(d.error || 'Erreur ' + r.status); return; }
+    setTimeout(poll, 1000);
+  } catch(e) { showError('Connexion impossible au serveur'); }
+}
+
+function poll() {
+  fetch('/api/status/' + job).then(r => r.json()).then(d => {
+    if (d.status === 'queued') {
+      const pos = d.queue_pos || 1;
+      showQueued(pos);
+      document.getElementById('queueNum').textContent = pos;
+      if (_L === 'en') {
+        document.getElementById('queueSub').textContent =
+          pos === 1
+            ? 'Your video is next. Processing will start very soon.'
+            : pos + ' videos ahead of yours. It will start automatically.';
+      } else {
+        document.getElementById('queueSub').textContent =
+          pos === 1
+            ? 'Votre vidéo est la prochaine. Le traitement démarre très bientôt.'
+            : pos + ' vidéos avant la vôtre. Cela démarre automatiquement.';
+      }
+      setTimeout(poll, 2500); return;
+    }
+    if (d.status === 'processing') {
+      showProcessing();
+      setStep(d.step || 1, d.progress || 5);
+      setTimeout(poll, 2000); return;
+    }
+    if (d.status === 'done') {
+      tp = 100; setStep(4, 100);
+      showProcessing();
+      var readyTxt = _L === 'en' ? 'Your video is ready!' : 'Votre vidéo est prête !';
+      var redirTxt = _L === 'en' ? 'Redirecting...' : 'Redirection...';
+      document.getElementById('phTitle').textContent = readyTxt;
+      document.getElementById('phSub').textContent = redirTxt;
+      setTimeout(() => location.href = '/result?job=' + job + '&tgt=' + tgt, 1200); return;
+    }
+    if (d.status === 'error') { showError(d.error || 'Erreur de traitement'); return; }
+    setTimeout(poll, 2000);
+  }).catch(() => setTimeout(poll, 3000));
+}
+
+launch();
+</script>
+
+<script>
+(function(){
+  var L = localStorage.getItem('oreus_lang')||'fr';
+  _L = L;
+  var T = {
+    fr: {
+      nav_step: 'Étape 3 sur 3',
+      starting: 'Démarrage...',
+      preparing: 'Préparation de votre vidéo',
+      waiting: 'en attente',
+      queue_title: "File d'attente",
+      queue_sub: 'Votre vidéo attend un slot de traitement. Cela démarre automatiquement.',
+      step1_label: 'Transcription audio',
+      step2_label: 'Traduction',
+      step3_label: 'Incrustation sous-titres',
+      pending: 'En attente'
+    },
+    en: {
+      nav_step: 'Step 3 of 3',
+      starting: 'Starting...',
+      preparing: 'Preparing your video',
+      waiting: 'waiting',
+      queue_title: 'Queue',
+      queue_sub: 'Your video is waiting for a processing slot. It will start automatically.',
+      step1_label: 'Audio transcription',
+      step2_label: 'Translation',
+      step3_label: 'Subtitle rendering',
+      pending: 'Pending'
+    }
+  };
+  function apply(){
+    L = localStorage.getItem('oreus_lang')||'fr';
+    _L = L;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(T[L]&&T[L][k]) el.innerHTML=T[L][k];
+    });
+    var b=document.getElementById('langBtn');
+    var c=document.getElementById('langCurrent');if(c)c.textContent=L.toUpperCase();var fi=document.getElementById('langItemFr'),ei=document.getElementById('langItemEn');if(fi)fi.className='lang-item'+(L==='fr'?' active':'');if(ei)ei.className='lang-item'+(L==='en'?' active':'');
+    document.documentElement.lang=L;
+  }
+  window.toggleLang=function(){
+    L=L==='fr'?'en':'fr';
+    _L=L;
+    localStorage.setItem('oreus_lang',L);
+    apply();
+  };
+  document.addEventListener('DOMContentLoaded',apply);
+})();
+</script>
+</body>
+</html>

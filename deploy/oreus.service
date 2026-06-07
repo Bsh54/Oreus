@@ -1,0 +1,22 @@
+[Unit]
+Description=Oreus Video Subtitle Service
+After=network.target
+
+[Service]
+User=shad
+WorkingDirectory=/home/shad/oreus
+ExecStart=/home/shad/oreus/venv/bin/gunicorn \
+    --workers 1 \
+    --threads 8 \
+    --bind 0.0.0.0:5000 \
+    --timeout 600 \
+    --access-logfile - \
+    app:app
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+# Environment=DS2_API=your_deepseek_key
+# Environment=OREUS_ADMIN_KEY=your_admin_password
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Style et apparence des sous-titres · Oreus</title>
+<meta name="description" content="Personnalisez l'apparence de vos sous-titres incrustés sur Oreus. Six styles prêts à l'emploi pour des vidéos professionnelles.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Oreus">
+<meta name="theme-color" content="#BE5A3C">
+<link rel="canonical" href="https://oreus.shadrakbessanh.me/style">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oreus">
+<meta property="og:title" content="Style et apparence des sous-titres · Oreus">
+<meta property="og:description" content="Personnalisez l'apparence de vos sous-titres incrustés sur Oreus. Six styles prêts à l'emploi pour des vidéos professionnelles.">
+<meta property="og:url" content="https://oreus.shadrakbessanh.me/style">
+<meta property="og:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Style et apparence des sous-titres · Oreus">
+<meta name="twitter:description" content="Personnalisez l'apparence de vos sous-titres incrustés sur Oreus. Six styles prêts à l'emploi pour des vidéos professionnelles.">
+<meta name="twitter:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta name="keywords" content="générateur de sous-titres, sous-titres automatiques, sous-titres IA, ajouter des sous-titres à une vidéo, traduire une vidéo, incruster des sous-titres, sous-titres vidéo gratuit, sous-titres langues africaines, sous-titres swahili, sous-titres yoruba, sous-titres hausa, sous-titres wolof, sous-titres lingala, subtitle generator, auto subtitles, add subtitles to video, African language subtitles, Oreus">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;--fg:hsl(0,0%,13%);--fg2:hsl(0,0%,32%);--fg3:hsl(0,0%,52%);
+  --primary:hsl(14,52%,49%);--primary-h:hsl(14,52%,44%);
+  --primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,88%);
+  --border:hsl(40,14%,83%);--panel-l:hsl(40,20%,94%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.05);
+  --r:8px;--nh:60px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100dvh}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.au{animation:fadeUp .38s ease both}
+.d1{animation-delay:.05s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);
+  background:rgba(250,248,244,.95);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px}
+.logo-box{width:32px;height:32px;border-radius:var(--r);background:var(--primary);
+  display:flex;align-items:center;justify-content:center}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;
+  letter-spacing:.03em;color:var(--fg);text-transform:uppercase;margin-left:9px}
+.nav-step{margin-left:auto;font-size:12px;font-weight:500;color:var(--fg3);
+  display:flex;align-items:center;gap:6px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+/* ── Layout ── */
+.split{min-height:100dvh;padding-top:var(--nh);display:grid;grid-template-columns:42fr 58fr}
+.panel-l{
+  background:var(--panel-l);border-right:1px solid var(--border);
+  padding:clamp(28px,4vw,52px) clamp(20px,3.5vw,44px);
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+  position:sticky;top:var(--nh);height:calc(100dvh - var(--nh));overflow:hidden;
+}
+.panel-r{
+  padding:clamp(20px,3.5vw,44px) clamp(16px,3vw,40px);
+  display:flex;flex-direction:column;justify-content:center;gap:18px;
+  min-height:calc(100dvh - var(--nh));
+}
+@media(max-width:768px){.split{grid-template-columns:1fr}.panel-l{display:none}.panel-r{padding:20px 14px}}
+
+/* ── Left panel text ── */
+.pl-h1{font-size:clamp(24px,3.2vw,38px);font-weight:700;letter-spacing:-.03em;
+  color:var(--fg);line-height:1.12;margin-bottom:8px}
+.pl-h1 em{font-style:normal;color:var(--primary)}
+.pl-sub{font-size:clamp(12px,1.2vw,14px);color:var(--fg2);line-height:1.7}
+.demo-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--fg3)}
+
+/* ── Demo cards (same as languages.html) ── */
+.demo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:12px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.demo-card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--fg3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.demo-card-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);flex-shrink:0}
+.demo-text{font-family:'Space Grotesk',sans-serif;font-size:clamp(12px,1.4vw,15px);
+  font-weight:700;color:var(--fg);line-height:1.3;min-height:44px;
+  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.demo-text span{transition:opacity .3s ease,transform .3s ease;text-align:center;width:100%}
+.demo-text span.out{opacity:0;transform:translateY(-8px);position:absolute}
+.demo-text span.in{opacity:0;transform:translateY(8px);position:absolute}
+.demo-text span.active{opacity:1;transform:translateY(0);position:relative}
+.demo-style-badge{font-size:11px;font-weight:700;letter-spacing:.05em;
+  padding:3px 9px;border-radius:5px;margin-top:8px;display:inline-block}
+
+/* Arrow entre les cartes */
+.demo-arrow{display:flex;align-items:center;justify-content:center;padding:4px 0;gap:8px}
+.arrow-line{flex:1;height:1px;background:var(--border);position:relative;overflow:hidden}
+.arrow-line::after{content:"";position:absolute;top:0;left:-50%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--primary),transparent);
+  animation:slide 1.8s ease-in-out infinite}
+@keyframes slide{0%{left:-50%}100%{left:150%}}
+.arrow-icon{width:28px;height:28px;border-radius:50%;background:var(--primary-lt);
+  border:1px solid var(--primary-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* Carte "style appliqué" — fond terracotta comme carte cible de languages */
+.demo-card.styled{background:hsl(14,52%,49%);border-color:hsl(14,52%,42%)}
+.demo-card.styled .demo-card-tag{color:hsl(14,52%,82%)}
+.demo-card.styled .demo-card-tag-dot{background:white;opacity:.5}
+
+/* Texte stylisé dans la carte du bas */
+#styledText{
+  font-family:var(--st-font,'Space Grotesk',sans-serif);
+  font-size:var(--st-size,clamp(12px,1.4vw,15px));
+  font-weight:var(--st-weight,700);
+  color:var(--st-color,#fff);
+  background:var(--st-bg,transparent);
+  -webkit-text-stroke:var(--st-stroke,0);
+  paint-order:stroke fill;
+  padding:var(--st-pad,0);
+  border-radius:var(--st-r,0);
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  display:inline-block;
+}
+.name-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;
+  background:hsl(14,52%,40%);padding:3px 10px;border-radius:6px;
+  font-size:11px;font-weight:700;color:#fff;letter-spacing:.04em}
+.name-badge-dot{width:7px;height:7px;border-radius:50%}
+
+/* ── Right panel ── */
+.tpl-head h2{font-size:clamp(16px,2vw,20px);font-weight:700;letter-spacing:-.02em;color:var(--fg)}
+.tpl-head p{font-size:12px;color:var(--fg3);margin-top:3px}
+
+.tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:600px){.tpl-grid{grid-template-columns:repeat(2,1fr)}}
+
+.tpl-card{background:var(--card);border:2px solid var(--border);border-radius:10px;
+  overflow:hidden;cursor:pointer;transition:border-color .18s,box-shadow .18s;position:relative}
+.tpl-card:hover{border-color:hsl(14,30%,70%);box-shadow:var(--shadow-md)}
+.tpl-card.selected{border-color:var(--primary);box-shadow:0 0 0 3px hsl(14,52%,49%,.13)}
+.tpl-check{position:absolute;top:7px;right:7px;width:20px;height:20px;border-radius:50%;
+  background:var(--primary);display:none;align-items:center;justify-content:center;z-index:2}
+.tpl-card.selected .tpl-check{display:flex}
+.tpl-screen{aspect-ratio:16/9;background:#111;overflow:hidden;position:relative}
+.tpl-screen video{width:100%;height:100%;object-fit:cover;display:block}
+.tpl-info{padding:8px 10px}
+.tpl-name{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;
+  color:var(--fg);text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px}
+.tpl-desc{font-size:10px;color:var(--fg3);margin-top:2px;line-height:1.4}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+.btn-next{width:100%;height:48px;background:var(--primary);color:#fff;border:none;
+  border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s,transform .1s,box-shadow .15s}
+.btn-next:hover{background:var(--primary-h);box-shadow:0 4px 14px hsl(14,52%,49%,.32)}
+.btn-next:active{transform:scale(.98)}
+
+
+.logo-img{width:34px;height:34px;border-radius:9px;display:block;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+
+<nav>
+  <img class="logo-img" src="/logo.png" width="34" height="34" alt="Oreus logo">
+  <span class="logo-name">Oreus</span>
+  <div class="nav-step"><div class="nav-dot"></div>Étape 3 sur 4</div>
+</nav>
+
+<div class="split">
+
+  <!-- ══ Panneau gauche ══ -->
+  <div class="panel-l">
+
+    <div class="au d1">
+      <h1 class="pl-h1">Choisissez<br>l'<em>apparence</em><br>des sous-titres</h1>
+      <p class="pl-sub">6 styles distincts pour correspondre à votre contenu.</p>
+    </div>
+
+    <p class="demo-label au d2">Aperçu en direct</p>
+
+    <!-- Carte texte brut -->
+    <div class="demo-card au d3">
+      <div class="demo-card-tag">
+        <span class="demo-card-tag-dot"></span>Texte original
+      </div>
+      <div class="demo-text">
+        <span class="active" id="rawText">BIENVENUE DANS CE REPORTAGE</span>
+      </div>
+    </div>
+
+    <!-- Flèche animée -->
+    <div class="demo-arrow au d3">
+      <div class="arrow-line"></div>
+      <div class="arrow-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+      <div class="arrow-line"></div>
+    </div>
+
+    <!-- Carte style appliqué -->
+    <div class="demo-card styled au d4">
+      <div class="demo-card-tag">
+        <span class="demo-card-tag-dot"></span>Style appliqué
+      </div>
+      <div class="demo-text" style="min-height:52px">
+        <span class="active" id="styledText">BIENVENUE DANS CE REPORTAGE</span>
+      </div>
+      <div class="name-badge" id="styleBadge">
+        <span class="name-badge-dot" id="badgeDot" style="background:#fff"></span>
+        <span id="badgeName">Broadcast</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ Panneau droit ══ -->
+  <div class="panel-r">
+
+    <div class="tpl-head au d1">
+      <h2>6 styles disponibles</h2>
+      <p>Cliquez sur un style pour le sélectionner.</p>
+    </div>
+
+    <div class="tpl-grid au d2">
+
+      <div class="tpl-card selected" data-tpl="broadcast" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_broadcast.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#fff;border:1px solid #bbb"></span>YouTube</div>
+          <div class="tpl-desc">Boite noire · texte blanc</div>
+        </div>
+      </div>
+
+      <div class="tpl-card" data-tpl="mrbeast" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_mrbeast.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#ffe000"></span>MrBeast</div>
+          <div class="tpl-desc">Jaune gras · contour noir</div>
+        </div>
+      </div>
+
+      <div class="tpl-card" data-tpl="neon" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_neon.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#fff;border:1px solid #bbb"></span>TikTok</div>
+          <div class="tpl-desc">Blanc gras · contour noir</div>
+        </div>
+      </div>
+
+      <div class="tpl-card" data-tpl="highlight" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_highlight.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#ffe000;border:1px solid #ccc"></span>Surlignage</div>
+          <div class="tpl-desc">Fond jaune · texte noir</div>
+        </div>
+      </div>
+
+      <div class="tpl-card" data-tpl="center" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_center.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#fff;border:1px solid #bbb"></span>Cinéma</div>
+          <div class="tpl-desc">Blanc net · ombre douce</div>
+        </div>
+      </div>
+
+      <div class="tpl-card" data-tpl="matrix" onclick="pick(this)">
+        <div class="tpl-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+        <div class="tpl-screen"><video src="prev_matrix.mp4" autoplay muted loop playsinline></video></div>
+        <div class="tpl-info">
+          <div class="tpl-name"><span class="dot" style="background:#ff2fa0"></span>Pop</div>
+          <div class="tpl-desc">Rose gras · contour noir</div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="btn-next au d3" onclick="goNext()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Continuer avec ce style
+    </button>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const job = params.get('job'), src = params.get('src')||'auto', tgt = params.get('tgt')||'fr';
+if (!job) location.href = '/upload';
+
+let selected = 'broadcast';
+
+// Définition des styles CSS pour la carte du bas
+const STYLES = {
+  broadcast: {
+    font:"'Arial',sans-serif", size:'clamp(12px,1.4vw,15px)', weight:'600',
+    color:'#fff', bg:'rgba(0,0,0,.62)', stroke:'0', pad:'4px 12px', r:'4px',
+    dot:'#ffffff', name:'YouTube'
+  },
+  mrbeast: {
+    font:"'Arial Black','Arial',sans-serif", size:'clamp(13px,1.5vw,16px)', weight:'900',
+    color:'#ffe000', bg:'transparent', stroke:'1.8px #000', pad:'0', r:'0',
+    dot:'#ffe000', name:'MrBeast'
+  },
+  neon: {
+    font:"'Arial Black','Arial',sans-serif", size:'clamp(13px,1.5vw,16px)', weight:'900',
+    color:'#fff', bg:'transparent', stroke:'1.7px #000', pad:'0', r:'0',
+    dot:'#ffffff', name:'TikTok'
+  },
+  highlight: {
+    font:"'Arial Black','Arial',sans-serif", size:'clamp(11px,1.3vw,14px)', weight:'900',
+    color:'#000', bg:'#ffe000', stroke:'0', pad:'3px 12px', r:'3px',
+    dot:'#ffe000', name:'Surlignage'
+  },
+  center: {
+    font:"'Arial',sans-serif", size:'clamp(14px,1.6vw,18px)', weight:'700',
+    color:'#fff', bg:'transparent', stroke:'0.6px #000', pad:'0', r:'0',
+    dot:'#ffffff', name:'Cinéma'
+  },
+  matrix: {
+    font:"'Arial Black','Arial',sans-serif", size:'clamp(13px,1.5vw,16px)', weight:'900',
+    color:'#ff2fa0', bg:'transparent', stroke:'1.5px #000', pad:'0', r:'0',
+    dot:'#ff2fa0', name:'Pop'
+  },
+};
+
+const TEXTS = [
+  'BIENVENUE DANS CE REPORTAGE',
+  'WELCOME TO THIS STORY',
+  'BIENVENIDOS AL PROGRAMA',
+  '欢迎收看本期节目',
+];
+let ti = 0;
+const rawEl = document.getElementById('rawText');
+const styledEl = document.getElementById('styledText');
+const badgeName = document.getElementById('badgeName');
+const badgeDot  = document.getElementById('badgeDot');
+
+const styleKeys = Object.keys(STYLES);
+let si = 0;
+
+function applyStyle(key) {
+  const s = STYLES[key];
+  const el = document.getElementById('styledText');
+  el.style.setProperty('font-family', s.font);
+  el.style.setProperty('font-size', s.size);
+  el.style.setProperty('font-weight', s.weight);
+  el.style.setProperty('color', s.color);
+  el.style.setProperty('background', s.bg);
+  el.style.setProperty('-webkit-text-stroke', s.stroke);
+  el.style.setProperty('padding', s.pad);
+  el.style.setProperty('border-radius', s.r);
+  badgeName.textContent = s.name;
+  badgeDot.style.background = s.dot;
+}
+
+applyStyle('broadcast');
+
+// Cycle texte + style toutes les 2.8 s
+setInterval(() => {
+  // Fade out
+  rawEl.classList.replace('active','out');
+  styledEl.classList.replace('active','out');
+
+  setTimeout(() => {
+    ti = (ti + 1) % TEXTS.length;
+    si = (si + 1) % styleKeys.length;
+    rawEl.textContent  = TEXTS[ti];
+    styledEl.textContent = TEXTS[ti];
+    applyStyle(styleKeys[si]);
+    rawEl.className = 'in';
+    styledEl.className = 'in';
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        rawEl.classList.replace('in','active');
+        styledEl.classList.replace('in','active');
+      });
+    });
+  }, 300);
+}, 2800);
+
+function pick(card) {
+  document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  selected = card.dataset.tpl;
+}
+
+function goNext() {
+  location.href = '/processing?job='+job+'&src='+src+'&tgt='+tgt+'&style='+selected;
+}
+</script>
+</body>
+</html>

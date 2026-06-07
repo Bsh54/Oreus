@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.env
+
+# Runtime data
+uploads/
+outputs/
+jobs/
+*.db
+*.db-wal
+*.db-shm
+gunicorn.log
+
+# Fonts (add your own — not redistributable)
+fonts/
+
+# Media assets (too large for git — host separately)
+static/bg_*.mp4
+static/prev_*.mp4
+static/logo-master.png
+static/shadrak.jpg
+
+# Credentials / secrets
+yt_cookies.txt
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db

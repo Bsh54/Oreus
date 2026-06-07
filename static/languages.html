@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Choisir les langues des sous-titres · Oreus</title>
+<meta name="description" content="Choisissez la langue de votre vidéo et la langue des sous-titres parmi 99 options dont 39 langues africaines. Traduction automatique par intelligence artificielle.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Oreus">
+<meta name="theme-color" content="#BE5A3C">
+<link rel="canonical" href="https://oreus.shadrakbessanh.me/languages">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oreus">
+<meta property="og:title" content="Choisir les langues des sous-titres · Oreus">
+<meta property="og:description" content="Choisissez la langue de votre vidéo et la langue des sous-titres parmi 99 options dont 39 langues africaines. Traduction automatique par intelligence artificielle.">
+<meta property="og:url" content="https://oreus.shadrakbessanh.me/languages">
+<meta property="og:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Choisir les langues des sous-titres · Oreus">
+<meta name="twitter:description" content="Choisissez la langue de votre vidéo et la langue des sous-titres parmi 99 options dont 39 langues africaines. Traduction automatique par intelligence artificielle.">
+<meta name="twitter:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta name="keywords" content="générateur de sous-titres, sous-titres automatiques, sous-titres IA, ajouter des sous-titres à une vidéo, traduire une vidéo, incruster des sous-titres, sous-titres vidéo gratuit, sous-titres langues africaines, sous-titres swahili, sous-titres yoruba, sous-titres hausa, sous-titres wolof, sous-titres lingala, subtitle generator, auto subtitles, add subtitles to video, African language subtitles, Oreus">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;
+  --fg:hsl(0,0%,13%);--fg2:hsl(0,0%,32%);--fg3:hsl(0,0%,52%);
+  --primary:hsl(14,52%,49%);--primary-h:hsl(14,52%,42%);
+  --primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,86%);
+  --border:hsl(40,14%,83%);--muted:hsl(40,16%,91%);--panel-l:hsl(40,22%,93%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.05);
+  --r:8px;--nh:60px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100dvh}
+h1,h2{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.au{animation:fadeUp .38s ease both}
+.d1{animation-delay:.06s}.d2{animation-delay:.14s}.d3{animation-delay:.22s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);
+  background:rgba(250,248,244,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:12px}
+.logo-a{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.logo-box{width:32px;height:32px;border-radius:var(--r);background:var(--primary);display:flex;align-items:center;justify-content:center}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--fg);text-transform:uppercase}
+.nav-step{margin-left:auto;font-size:12px;font-weight:500;color:var(--fg3);display:flex;align-items:center;gap:6px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+.pgb{position:fixed;top:var(--nh);left:0;right:0;z-index:99;height:3px;background:var(--muted)}
+.pgf{height:100%;width:66%;background:var(--primary)}
+
+.split{min-height:100dvh;padding-top:var(--nh);display:grid;grid-template-columns:42fr 58fr}
+.panel-l{
+  background:var(--panel-l);border-right:1px solid var(--border);
+  padding:clamp(28px,4vw,52px) clamp(20px,3.5vw,44px);
+  display:flex;flex-direction:column;justify-content:center;gap:16px;
+  position:sticky;top:var(--nh);height:calc(100dvh - var(--nh));overflow:hidden;
+}
+.panel-r{
+  padding:clamp(18px,3vw,36px) clamp(20px,4vw,52px);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:calc(100dvh - var(--nh));
+}
+@media(max-width:768px){
+  .split{grid-template-columns:1fr}
+  .panel-l{display:none}
+  .panel-r{padding:24px 20px;min-height:auto}
+}
+
+.demo-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--fg3)}
+.demo-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:12px;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.demo-card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--fg3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.demo-card-tag-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);flex-shrink:0}
+.demo-text{font-family:'Space Grotesk',sans-serif;font-size:clamp(13px,1.5vw,16px);
+  font-weight:700;color:var(--fg);line-height:1.3;min-height:40px;
+  display:flex;align-items:center;position:relative;overflow:hidden}
+.demo-text span{transition:opacity .35s ease,transform .35s ease;will-change:opacity,transform}
+.demo-text span.out{opacity:0;transform:translateY(-8px);position:absolute;top:0;left:0;width:100%}
+.demo-text span.in{opacity:0;transform:translateY(8px);position:absolute;top:0;left:0;width:100%}
+.demo-text span.active{opacity:1;transform:translateY(0);position:relative}
+.demo-lang-code{font-size:11px;font-weight:700;letter-spacing:.05em;
+  padding:3px 9px;border-radius:5px;margin-top:8px;display:inline-block;
+  background:var(--primary-lt);border:1px solid var(--primary-mid);color:var(--primary)}
+.demo-arrow{display:flex;align-items:center;justify-content:center;padding:4px 0;gap:8px}
+.arrow-line{flex:1;height:1px;background:var(--border);position:relative;overflow:hidden}
+.arrow-line::after{content:"";position:absolute;top:0;left:-100%;width:50%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--primary),transparent);
+  animation:slide 1.8s ease-in-out infinite}
+@keyframes slide{0%{left:-50%}100%{left:150%}}
+.arrow-icon{width:28px;height:28px;border-radius:50%;background:var(--primary-lt);
+  border:1px solid var(--primary-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.demo-card.target{background:hsl(14,52%,49%);border-color:hsl(14,52%,42%)}
+.demo-card.target .demo-card-tag{color:hsl(14,52%,80%)}
+.demo-card.target .demo-card-tag-dot{background:white;opacity:.6}
+.demo-card.target .demo-text{color:white}
+.demo-card.target .demo-lang-code{background:hsl(14,52%,40%);border-color:hsl(14,52%,35%);color:white}
+
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  box-shadow:var(--shadow-md);overflow:hidden;width:100%;max-width:520px}
+.btn-primary{width:100%;height:42px;background:var(--primary);color:#fff;border:none;
+  border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s,box-shadow .15s,transform .1s}
+.btn-primary:hover:not(:disabled){background:var(--primary-h);box-shadow:0 4px 14px hsl(14,52%,49%,.28)}
+.btn-primary:active:not(:disabled){transform:scale(.98)}
+.btn-primary:disabled{opacity:.3;cursor:not-allowed}
+.btn-ghost{width:100%;height:40px;background:transparent;color:var(--fg2);
+  border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s}
+.btn-ghost:hover{background:var(--muted)}
+.divider{height:1px;background:var(--border)}
+.cs{padding:15px 24px}
+.sec-label{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--fg3);margin-bottom:6px;display:block}
+.dd-wrap{position:relative}
+.dd-trigger{width:100%;height:42px;padding:0 14px;background:var(--card);
+  border:1px solid var(--border);border-radius:var(--r);display:flex;align-items:center;
+  justify-content:space-between;font-size:14px;color:var(--fg);cursor:pointer;
+  transition:border-color .15s,box-shadow .15s}
+.dd-trigger:hover{border-color:hsl(14,30%,70%)}
+.dd-trigger.open{border-color:var(--primary);box-shadow:0 0 0 3px hsl(14,52%,49%,.1)}
+.ph{color:var(--fg3)}
+.chev{flex-shrink:0;color:var(--fg3);transition:transform .2s}
+.dd-trigger.open .chev{transform:rotate(180deg)}
+.dd-panel{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:200;
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  box-shadow:0 8px 28px rgba(0,0,0,.1);display:none;overflow:hidden}
+.dd-panel.open{display:block}
+.dd-search{width:100%;padding:10px 14px;border:none;border-bottom:1px solid var(--border);
+  font-size:13px;background:hsl(40,15%,98%);outline:none;color:var(--fg)}
+.dd-search::placeholder{color:var(--fg3)}
+.dd-list{max-height:210px;overflow-y:auto}
+.dd-opt{padding:9px 14px;cursor:pointer;font-size:13px;color:var(--fg);
+  display:flex;align-items:center;gap:10px;transition:background .1s}
+.dd-opt:hover{background:var(--muted)}
+.dd-opt.sel{background:var(--primary-lt);color:var(--primary);font-weight:500}
+.lang-code{font-size:10px;font-weight:700;letter-spacing:.05em;background:var(--muted);
+  border:1px solid var(--border);padding:2px 7px;border-radius:4px;color:var(--fg2);flex-shrink:0}
+.dd-opt.sel .lang-code{background:var(--primary-mid);border-color:hsl(14,52%,70%);color:var(--primary)}
+.lang-val{display:flex;align-items:center;gap:9px}
+.connector{display:flex;align-items:center;gap:12px;padding:6px 0}
+.conn-line{flex:1;height:1px;background:var(--border)}
+.conn-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pairs-section{padding:11px 24px}
+.pairs-label{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--fg3);margin-bottom:10px;display:block}
+.pairs-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.pair-btn{display:flex;align-items:center;gap:4px;padding:8px 10px;background:var(--bg);
+  border:1px solid var(--border);border-radius:var(--r);font-size:11px;font-weight:500;
+  color:var(--fg2);cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif;justify-content:space-between}
+.pair-btn:hover{background:var(--primary-lt);border-color:hsl(14,42%,74%);color:var(--primary)}
+.pair-btn:active{transform:scale(.97)}
+.pair-src{font-weight:600;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82px}
+.pair-btn:hover .pair-src,.pair-btn:hover .pair-tgt{color:var(--primary)}
+.pair-arr{color:var(--fg3);flex-shrink:0}
+.pair-tgt{color:var(--fg2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:82px}
+.actions{padding:13px 24px;display:flex;flex-direction:column;gap:9px}
+.pl-intro{margin-bottom:16px}
+.pl-h1{font-size:clamp(23px,2.9vw,35px);font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1.12;margin-bottom:7px}
+.pl-h1 em{font-style:normal;color:var(--primary)}
+.pl-sub{font-size:clamp(11px,1.1vw,13px);color:var(--fg2);line-height:1.65}
+.lang-wrap{position:relative;flex-shrink:0}
+.lang-trigger{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--fg);background:var(--muted);border:1.5px solid var(--border);cursor:pointer;padding:9px 16px;border-radius:10px;transition:all .15s;letter-spacing:.02em;white-space:nowrap}
+.lang-trigger:hover{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-wrap.open .lang-trigger{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-chev{transition:transform .2s;opacity:.6}
+.lang-wrap.open .lang-chev{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;right:0;top:calc(100% + 8px);width:160px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.13);display:none;overflow:hidden;z-index:500;padding:4px}
+.lang-wrap.open .lang-dropdown{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg2);background:transparent;border:none;cursor:pointer;text-align:left;transition:background .12s,color .12s;border-radius:8px}
+.lang-item:hover{background:var(--muted);color:var(--fg)}
+.lang-item.active{background:var(--primary-lt);color:var(--primary)}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.lang-item.active .lang-dot{background:var(--primary)}
+
+/* Toggle exclusif sous-titres */
+.sub-toggle{display:flex;gap:4px;background:var(--muted);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:8px}
+.sub-tab{flex:1;height:36px;border:none;background:transparent;border-radius:7px;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--fg2);cursor:pointer;transition:background .15s,color .15s,box-shadow .15s}
+.sub-tab:hover{color:var(--fg)}
+.sub-tab.active{background:var(--card);color:var(--primary);box-shadow:var(--shadow)}
+.sub-hint{font-size:11.5px;color:var(--fg3);line-height:1.45;margin-bottom:8px}
+/* Panneau gauche enrichi */
+.pl-eyebrow{display:inline-block;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);background:var(--primary-lt);border:1px solid var(--primary-mid);padding:5px 11px;border-radius:20px;margin-bottom:14px}
+.pl-stats{display:flex;gap:9px;margin:4px 0 2px}
+.pl-stat{flex:1;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 8px;text-align:center;box-shadow:var(--shadow)}
+.pl-stat-n{display:block;font-family:'Space Grotesk',sans-serif;font-size:clamp(18px,2vw,24px);font-weight:700;color:var(--primary);line-height:1}
+.pl-stat-l{display:block;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg3);margin-top:5px}
+.logo-img{width:34px;height:34px;border-radius:9px;display:block;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo-a" href="/">
+    <img class="logo-img" src="/logo.png" width="34" height="34" alt="Oreus logo">
+    <span class="logo-name">Oreus</span>
+  </a>
+
+  <div class="nav-step"><div class="nav-dot"></div><span data-i18n="nav_step">Étape 2 sur 3</span></div>
+  <div class="lang-wrap" id="langWrap">
+  <button class="lang-trigger" onclick="toggleLangMenu()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <span id="langCurrent">FR</span>
+    <svg class="lang-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+  </button>
+  <div class="lang-dropdown">
+    <button class="lang-item active" id="langItemFr" onclick="setLang('fr')"><span class="lang-dot"></span>Fran&#231;ais</button>
+    <button class="lang-item" id="langItemEn" onclick="setLang('en')"><span class="lang-dot"></span>English</button>
+  </div>
+</div>
+</nav>
+<div class="pgb"><div class="pgf"></div></div>
+
+<div class="split">
+  <div class="panel-l">
+    <div class="pl-intro">
+      <span class="pl-eyebrow" data-i18n="pl_eyebrow">Étape 2 sur 3</span>
+      <h1 class="pl-h1" data-i18n="panel_title">Choisissez<br>vos <em>langues</em></h1>
+      <p class="pl-sub" data-i18n="panel_sub">Indiquez la langue parlée dans la vidéo, puis la langue des sous-titres. 99 langues dont 39 africaines.</p>
+    </div>
+    <div class="pl-stats au d1">
+      <div class="pl-stat"><span class="pl-stat-n">99</span><span class="pl-stat-l" data-i18n="stat_langs">langues</span></div>
+      <div class="pl-stat"><span class="pl-stat-n">39</span><span class="pl-stat-l" data-i18n="stat_african">africaines</span></div>
+      <div class="pl-stat"><span class="pl-stat-n" data-i18n="stat_ai_n">IA</span><span class="pl-stat-l" data-i18n="stat_ai">traduction</span></div>
+    </div>
+    <p class="demo-label au d2" data-i18n="demo_label">Aperçu en direct</p>
+    <div class="demo-card au d2">
+      <div class="demo-card-tag"><span class="demo-card-tag-dot"></span><span data-i18n="demo_source">Source</span></div>
+      <div class="demo-text" id="srcText"><span class="active">Bienvenue dans notre application</span></div>
+      <span class="demo-lang-code" id="srcCode">FR</span>
+    </div>
+    <div class="demo-arrow au d2">
+      <div class="arrow-line"></div>
+      <div class="arrow-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+      <div class="arrow-line"></div>
+    </div>
+    <div class="demo-card target au d3">
+      <div class="demo-card-tag"><span class="demo-card-tag-dot"></span><span data-i18n="demo_translation">Traduction</span></div>
+      <div class="demo-text" id="tgtText"><span class="active">Welcome to our application</span></div>
+      <span class="demo-lang-code" id="tgtCode">EN</span>
+    </div>
+  </div>
+
+  <div class="panel-r">
+    <div class="form-card au d2">
+      <div class="cs">
+        <span class="sec-label" data-i18n="src_label">Langue de la vidéo</span>
+        <div class="dd-wrap" id="ddW1">
+          <div class="dd-trigger" id="ddT1" onclick="toggleDD(1)" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+            <span id="ddV1" class="ph" data-i18n="select_lang">Sélectionner une langue...</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+          </div>
+          <div class="dd-panel" id="ddP1" role="listbox">
+            <input class="dd-search" id="ddS1" placeholder="Rechercher..." autocomplete="off" spellcheck="false">
+            <div class="dd-list" id="ddL1"></div>
+          </div>
+        </div>
+
+        <div class="connector">
+          <div class="conn-line"></div>
+          <div class="conn-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--fg3)" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19,12 12,19 5,12"/></svg></div>
+          <div class="conn-line"></div>
+        </div>
+
+        <span class="sec-label" data-i18n="tgt_label">Langue des sous-titres</span>
+        <div class="sub-toggle" role="tablist">
+          <button class="sub-tab active" id="tabStd" type="button" onclick="setSubMode('std')" data-i18n="sub_standard">Langue standard</button>
+          <button class="sub-tab" id="tabAfr" type="button" onclick="setSubMode('afr')" data-i18n="sub_african">Langue africaine</button>
+        </div>
+        <p class="sub-hint" data-i18n="sub_hint">Choisissez l'une ou l'autre, selon la langue voulue.</p>
+
+        <div class="dd-wrap sub-pane" id="ddW2">
+          <div class="dd-trigger" id="ddT2" onclick="toggleDD(2)" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+            <span id="ddV2" class="ph" data-i18n="select_lang">Sélectionner une langue...</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+          </div>
+          <div class="dd-panel" id="ddP2" role="listbox">
+            <input class="dd-search" id="ddS2" placeholder="Rechercher..." autocomplete="off" spellcheck="false">
+            <div class="dd-list" id="ddL2"></div>
+          </div>
+        </div>
+
+        <div class="dd-wrap sub-pane" id="ddW3" style="display:none">
+          <div class="dd-trigger" id="ddT3" onclick="toggleDD(3)" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+            <span id="ddV3" class="ph" data-i18n="select_african">Sélectionner une langue africaine...</span>
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+          </div>
+          <div class="dd-panel" id="ddP3" role="listbox">
+            <input class="dd-search" id="ddS3" placeholder="Rechercher..." autocomplete="off" spellcheck="false">
+            <div class="dd-list" id="ddL3"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="pairs-section">
+        <span class="pairs-label" data-i18n="pairs_label">Paires populaires</span>
+        <div class="pairs-grid">
+          <button class="pair-btn" onclick="qp('auto','fr')"><span class="pair-src" data-i18n="pair_auto">Détection auto</span><span class="pair-arr">→</span><span class="pair-tgt" data-i18n="pair_fr">Français</span></button>
+          <button class="pair-btn" onclick="qp('auto','en')"><span class="pair-src" data-i18n="pair_auto">Détection auto</span><span class="pair-arr">→</span><span class="pair-tgt" data-i18n="pair_en">Anglais</span></button>
+          <button class="pair-btn" onclick="qp('fr','en')"><span class="pair-src" data-i18n="pair_fr">Français</span><span class="pair-arr">→</span><span class="pair-tgt" data-i18n="pair_en">Anglais</span></button>
+          <button class="pair-btn" onclick="qp('en','fr')"><span class="pair-src" data-i18n="pair_en">Anglais</span><span class="pair-arr">→</span><span class="pair-tgt" data-i18n="pair_fr">Français</span></button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="actions">
+        <button id="launchBtn" class="btn-primary" onclick="go()" disabled>
+          <span data-i18n="launch_btn">Lancer la traduction</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-ghost" onclick="history.back()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span data-i18n="back_btn">Retour</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PHRASES = {
+  fr:'Bienvenue dans notre application',en:'Welcome to our application',
+  es:'Bienvenidos a nuestra aplicación',de:'Willkommen in unserer Anwendung',
+  it:'Benvenuti nella nostra applicazione',pt:'Bem-vindos ao nosso aplicativo',
+  ar:'مرحباً بكم في تطبيقنا',zh:'欢迎使用我们的应用程序',ja:'アプリへようこそ',
+  ko:'우리 앱에 오신 것을 환영합니다',ru:'Добро пожаловать в наше приложение',
+  nl:'Welkom bij onze applicatie',pl:'Witamy w naszej aplikacji',
+  tr:'Uygulamamıza hoş geldiniz',hi:'हमारे ऐप में आपका स्वागत है',
+  sw:'Karibu kwenye programu yetu',yo:'Ẹ káabọ̀ sí ètò wa',
+  ha:'Barka da zuwa cikin ayyukanmu',am:'እንኳን ወደ አፕሊኬሽናችን መጡ',
+  auto:'Bienvenue dans notre application',
+};
+const LANG_NAMES={
+  auto:'AUTO',fr:'FR',en:'EN',es:'ES',de:'DE',it:'IT',pt:'PT',
+  ar:'AR',zh:'ZH',ja:'JA',ko:'KO',ru:'RU',nl:'NL',pl:'PL',
+  tr:'TR',hi:'HI',sv:'SV',da:'DA',fi:'FI',uk:'UK',ro:'RO',
+  sw:'SW',yo:'YO',ha:'HA',ig:'IG',am:'AM',zu:'ZU',xh:'XH',
+  sn:'SN',ny:'NY',st:'ST',rw:'RW',lg:'LG',ln:'LN',ee:'EE',
+  tw:'TW',krio:'KRIO',nso:'NSO',ts:'TS',tn:'TN',ti:'TI',
+  om:'OM',mg:'MG',so:'SO',af:'AF',bm:'BM',wo:'WO',fon:'FON',
+  kg:'KG',ss:'SS',ve:'VE',gaa:'GAA',ak:'AK',aa:'AA',bem:'BEM',
+  run:'RUN',cgg:'CGG',mfe:'MFE',nus:'NUS',luo:'LUO',
+};
+const CYCLE_ORDER=['fr','en','es','ar','zh','ja','de','pt','ru','ko','it','hi'];
+let cycleIdx=0,autoPlaying=true,currentSrc='fr',currentTgt='en';
+
+function morphText(elId,newText){
+  const el=document.getElementById(elId);
+  if(!el)return;
+  const old=el.querySelector('.active');
+  const next=document.createElement('span');
+  next.textContent=newText;next.className='in';
+  el.appendChild(next);
+  void next.offsetWidth;
+  requestAnimationFrame(()=>{if(old)old.className='out';next.className='active';if(old)setTimeout(()=>old.remove(),400)});
+}
+function updateDemo(src,tgt){
+  currentSrc=src;currentTgt=tgt;
+  morphText('srcText',PHRASES[src]||PHRASES['en']);
+  morphText('tgtText',PHRASES[tgt]||PHRASES['en']);
+  document.getElementById('srcCode').textContent=LANG_NAMES[src]||src.toUpperCase();
+  document.getElementById('tgtCode').textContent=LANG_NAMES[tgt]||tgt.toUpperCase();
+}
+function autoCycle(){
+  if(!autoPlaying)return;
+  const src=CYCLE_ORDER[cycleIdx%CYCLE_ORDER.length];
+  const tgt=CYCLE_ORDER[(cycleIdx+3)%CYCLE_ORDER.length];
+  updateDemo(src,tgt);cycleIdx++;
+}
+setInterval(autoCycle,2800);
+
+// Langues standard (dropdown 1 & 2)
+const LANGS=[
+  {v:'auto',l:'Détection automatique',c:'AUTO'},
+  {v:'fr',l:'Français',c:'FR'},{v:'en',l:'Anglais',c:'EN'},{v:'es',l:'Espagnol',c:'ES'},
+  {v:'de',l:'Allemand',c:'DE'},{v:'it',l:'Italien',c:'IT'},{v:'pt',l:'Portugais',c:'PT'},
+  {v:'nl',l:'Néerlandais',c:'NL'},{v:'ru',l:'Russe',c:'RU'},{v:'zh',l:'Chinois',c:'ZH'},
+  {v:'ja',l:'Japonais',c:'JA'},{v:'ko',l:'Coréen',c:'KO'},{v:'ar',l:'Arabe',c:'AR'},
+  {v:'hi',l:'Hindi',c:'HI'},{v:'tr',l:'Turc',c:'TR'},{v:'pl',l:'Polonais',c:'PL'},
+  {v:'sv',l:'Suédois',c:'SV'},{v:'da',l:'Danois',c:'DA'},{v:'fi',l:'Finnois',c:'FI'},
+  {v:'no',l:'Norvégien',c:'NO'},{v:'ro',l:'Roumain',c:'RO'},{v:'uk',l:'Ukrainien',c:'UK'},
+  {v:'cs',l:'Tchèque',c:'CS'},{v:'sk',l:'Slovaque',c:'SK'},{v:'hu',l:'Hongrois',c:'HU'},
+  {v:'el',l:'Grec',c:'EL'},{v:'he',l:'Hébreu',c:'HE'},{v:'th',l:'Thaï',c:'TH'},
+  {v:'id',l:'Indonésien',c:'ID'},{v:'ms',l:'Malais',c:'MS'},{v:'vi',l:'Vietnamien',c:'VI'},
+  {v:'bn',l:'Bengali',c:'BN'},{v:'ur',l:'Ourdou',c:'UR'},{v:'fa',l:'Persan',c:'FA'},
+  {v:'ca',l:'Catalan',c:'CA'},{v:'hr',l:'Croate',c:'HR'},{v:'bg',l:'Bulgare',c:'BG'},
+  {v:'sr',l:'Serbe',c:'SR'},{v:'sl',l:'Slovène',c:'SL'},{v:'lt',l:'Lituanien',c:'LT'},
+  {v:'lv',l:'Letton',c:'LV'},{v:'et',l:'Estonien',c:'ET'},
+];
+
+// Langues africaines
+const AFRICAN=[
+  {v:'aa',l:'Afar',c:'AA'},{v:'af',l:'Afrikaans',c:'AF'},{v:'ak',l:'Akan',c:'AK'},
+  {v:'am',l:'Amharique',c:'AM'},{v:'bem',l:'Bemba',c:'BEM'},{v:'bm',l:'Bambara',c:'BM'},
+  {v:'cgg',l:'Chiga',c:'CGG'},{v:'ny',l:'Chichewa',c:'NY'},{v:'ee',l:'Ewe',c:'EE'},
+  {v:'fon',l:'Fon',c:'FON'},{v:'gaa',l:'Ga',c:'GAA'},{v:'ha',l:'Haoussa',c:'HA'},
+  {v:'ig',l:'Igbo',c:'IG'},{v:'kg',l:'Kikongo',c:'KG'},{v:'rw',l:'Kinyarwanda',c:'RW'},
+  {v:'krio',l:'Krio',c:'KRIO'},{v:'ln',l:'Lingala',c:'LN'},{v:'lg',l:'Luganda',c:'LG'},
+  {v:'luo',l:'Luo',c:'LUO'},{v:'mg',l:'Malgache',c:'MG'},{v:'mfe',l:'Morisyen',c:'MFE'},
+  {v:'nus',l:'Nuer',c:'NUS'},{v:'om',l:'Oromo',c:'OM'},{v:'run',l:'Rundi',c:'RUN'},
+  {v:'nso',l:'Sepedi',c:'NSO'},{v:'st',l:'Sesotho',c:'ST'},{v:'sn',l:'Shona',c:'SN'},
+  {v:'ss',l:'Siswati',c:'SS'},{v:'so',l:'Somali',c:'SO'},{v:'sw',l:'Swahili',c:'SW'},
+  {v:'ti',l:'Tigrigna',c:'TI'},{v:'ts',l:'Tsonga',c:'TS'},{v:'tn',l:'Tswana',c:'TN'},
+  {v:'tw',l:'Twi',c:'TW'},{v:'ve',l:'Venda',c:'VE'},{v:'wo',l:'Wolof',c:'WO'},
+  {v:'xh',l:'Xhosa',c:'XH'},{v:'yo',l:'Yoruba',c:'YO'},{v:'zu',l:'Zulu',c:'ZU'},
+];
+
+
+var _lng=localStorage.getItem('oreus_lang')||'fr';
+var T_PH=_lng==='en'?{std:'Select a language...',afr:'Select an African language...'}:{std:'Sélectionner une langue...',afr:'Sélectionner une langue africaine...'};
+const sel={1:null,2:null,3:null};
+
+// Peupler les listes
+function buildList(listId,data,n){
+  const el=document.getElementById(listId);
+  el.innerHTML=data.map(o=>`<div class="dd-opt" data-v="${o.v}" data-l="${o.l}" data-c="${o.c}" onclick="pick(${n},'${o.v}',this)">
+    <span class="lang-code">${o.c}</span>${o.l}</div>`).join('');
+}
+buildList('ddL1',LANGS,1);
+buildList('ddL2',LANGS.filter(o=>o.v!=='auto'),2);
+buildList('ddL3',AFRICAN,3);
+
+// Filtrer les listes
+['ddS1','ddS2','ddS3'].forEach((sid,i)=>{
+  const n=i+1;
+  const data=n===3?AFRICAN:(n===2?LANGS.filter(o=>o.v!=='auto'):LANGS);
+  document.getElementById(sid).addEventListener('input',function(){
+    const q=this.value.toLowerCase();
+    document.querySelectorAll('#ddL'+n+' .dd-opt').forEach(opt=>{
+      opt.style.display=opt.dataset.l.toLowerCase().includes(q)||opt.dataset.c.toLowerCase().includes(q)||opt.dataset.v.toLowerCase().includes(q)?'':'none';
+    });
+  });
+});
+
+// Ouvrir/fermer dropdowns
+function toggleDD(n){
+  const panel=document.getElementById('ddP'+n);
+  const trigger=document.getElementById('ddT'+n);
+  const isOpen=panel.classList.contains('open');
+  closeAll();
+  if(!isOpen){
+    panel.classList.add('open');
+    trigger.classList.add('open');
+    trigger.setAttribute('aria-expanded','true');
+    document.getElementById('ddS'+n).focus();
+  }
+}
+function closeAll(){
+  [1,2,3].forEach(n=>{
+    document.getElementById('ddP'+n).classList.remove('open');
+    document.getElementById('ddT'+n).classList.remove('open');
+    document.getElementById('ddT'+n).setAttribute('aria-expanded','false');
+  });
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.dd-wrap'))closeAll();
+});
+
+// Sélectionner une option
+function pick(n,v,el){
+  const l=el.dataset.l,c=el.dataset.c;
+  sel[n]=v;
+
+  if(n===2&&v){
+    sel[3]=null;
+    document.getElementById('ddV3').innerHTML='<span class="ph">Sélectionner une langue africaine...</span>';
+    document.querySelectorAll('#ddL3 .dd-opt').forEach(o=>o.classList.remove('sel'));
+  }
+  if(n===3&&v){
+    sel[2]=null;
+    document.getElementById('ddV2').innerHTML='<span class="ph">Sélectionner une langue...</span>';
+    document.querySelectorAll('#ddL2 .dd-opt').forEach(o=>o.classList.remove('sel'));
+  }
+
+  document.getElementById('ddV'+n).innerHTML=`<span class="lang-val"><span class="lang-code">${c}</span>${l}</span>`;
+
+  document.querySelectorAll('#ddL'+n+' .dd-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+
+  closeAll();
+  checkReady();
+  autoPlaying=false;
+  if(n===1)updateDemo(v,sel[2]||sel[3]||currentTgt);
+  else updateDemo(sel[1]||currentSrc,v);
+}
+
+
+let subMode='std';
+function setSubMode(m){
+  if(subMode===m)return;
+  subMode=m;
+  closeAll();
+  document.getElementById('tabStd').classList.toggle('active',m==='std');
+  document.getElementById('tabAfr').classList.toggle('active',m==='afr');
+  document.getElementById('ddW2').style.display=m==='std'?'':'none';
+  document.getElementById('ddW3').style.display=m==='afr'?'':'none';
+  if(m==='std'){sel[3]=null;document.getElementById('ddV3').innerHTML='<span class="ph">'+(T_PH.afr)+'</span>';document.querySelectorAll('#ddL3 .dd-opt').forEach(o=>o.classList.remove('sel'));}
+  else{sel[2]=null;document.getElementById('ddV2').innerHTML='<span class="ph">'+(T_PH.std)+'</span>';document.querySelectorAll('#ddL2 .dd-opt').forEach(o=>o.classList.remove('sel'));}
+  checkReady();
+}
+
+function checkReady(){
+  document.getElementById('launchBtn').disabled=!(sel[1]&&(sel[2]||sel[3]));
+}
+
+// Paires rapides (ddW1 + ddW2 seulement)
+function qp(src,tgt){
+  setSubMode('std');
+  const srcOpt=document.querySelector(`#ddL1 .dd-opt[data-v="${src}"]`);
+  const tgtOpt=document.querySelector(`#ddL2 .dd-opt[data-v="${tgt}"]`);
+  if(srcOpt)pick(1,src,srcOpt);
+  if(tgtOpt)pick(2,tgt,tgtOpt);
+}
+
+function go(){
+  if(!sel[1]||(! sel[2]&&!sel[3]))return;
+  const p=new URLSearchParams(location.search);
+  const job=p.get('job')||'';
+  const src=sel[1];
+  const tgt=sel[3]||sel[2];
+  location.href='/style?job='+job+'&src='+src+'&tgt='+tgt;
+}
+</script>
+
+<script>
+(function(){
+  var L = localStorage.getItem('oreus_lang')||'fr';
+  var T = {
+    fr: {
+      nav_step: 'Étape 2 sur 3',
+      panel_title: 'Choisissez<br>vos <em>langues</em>',
+      panel_sub: "Indiquez la langue parlée dans la vidéo, puis la langue des sous-titres. 99 langues dont 39 africaines.",
+      demo_label: 'Aperçu en direct',
+      pl_eyebrow: 'Étape 2 sur 3',
+      stat_langs: 'langues',
+      stat_african: 'africaines',
+      stat_ai_n: 'IA',
+      stat_ai: 'traduction',
+      sub_standard: 'Langue standard',
+      sub_african: 'Langue africaine',
+      sub_hint: "Choisissez l'une ou l'autre, selon la langue voulue.",
+      demo_source: 'Source',
+      demo_translation: 'Traduction',
+      src_label: 'Langue de la vidéo',
+      tgt_label: 'Langue des sous-titres',
+      african_label: 'Langue africaine des sous-titres',
+      select_lang: 'Sélectionner une langue...',
+      select_african: 'Sélectionner une langue africaine...',
+      pairs_label: 'Paires populaires',
+      pair_auto: 'Détection auto',
+      pair_fr: 'Français',
+      pair_en: 'Anglais',
+      pair_es: 'Espagnol',
+      pair_ar: 'Arabe',
+      launch_btn: 'Lancer la traduction',
+      back_btn: 'Retour'
+    },
+    en: {
+      nav_step: 'Step 2 of 3',
+      panel_title: 'Choose<br>your <em>languages</em>',
+      panel_sub: 'Set the language spoken in the video, then the subtitle language. 99 languages including 39 African.',
+      demo_label: 'Live preview',
+      pl_eyebrow: 'Step 2 of 3',
+      stat_langs: 'languages',
+      stat_african: 'African',
+      stat_ai_n: 'AI',
+      stat_ai: 'translation',
+      sub_standard: 'Standard language',
+      sub_african: 'African language',
+      sub_hint: 'Pick one or the other, depending on the language you want.',
+      demo_source: 'Source',
+      demo_translation: 'Translation',
+      src_label: 'Video language',
+      tgt_label: 'Subtitle language',
+      african_label: 'African subtitle language',
+      select_lang: 'Select a language...',
+      select_african: 'Select an African language...',
+      pairs_label: 'Popular pairs',
+      pair_auto: 'Auto-detect',
+      pair_fr: 'French',
+      pair_en: 'English',
+      pair_es: 'Spanish',
+      pair_ar: 'Arabic',
+      launch_btn: 'Start translation',
+      back_btn: 'Back'
+    }
+  };
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(T[L]&&T[L][k]) el.innerHTML=T[L][k];
+    });
+    var b=document.getElementById('langBtn');
+    var c=document.getElementById('langCurrent');if(c)c.textContent=L.toUpperCase();var fi=document.getElementById('langItemFr'),ei=document.getElementById('langItemEn');if(fi)fi.className='lang-item'+(L==='fr'?' active':'');if(ei)ei.className='lang-item'+(L==='en'?' active':'');
+    document.documentElement.lang=L;
+  }
+  window.setLang=function(lang){
+    if(L===lang){closeLangMenu();return;}
+    L=lang;
+    localStorage.setItem('oreus_lang',L);
+    apply();
+    closeLangMenu();
+  };
+  window.toggleLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.toggle('open');
+  };
+  window.closeLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.remove('open');
+  };
+  document.addEventListener('click',function(e){
+    var w=document.getElementById('langWrap');
+    if(w&&!w.contains(e.target))w.classList.remove('open');
+  });
+  document.addEventListener('DOMContentLoaded',apply);
+})();
+</script>
+</body>
+</html>

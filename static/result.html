@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Votre vidéo sous-titrée est prête · Oreus</title>
+<meta name="description" content="Téléchargez votre vidéo avec les sous-titres incrustés, générée par Oreus.">
+<meta name="robots" content="noindex, follow">
+<meta name="author" content="Oreus">
+<meta name="theme-color" content="#BE5A3C">
+<link rel="canonical" href="https://oreus.shadrakbessanh.me/result">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oreus">
+<meta property="og:title" content="Votre vidéo sous-titrée est prête · Oreus">
+<meta property="og:description" content="Téléchargez votre vidéo avec les sous-titres incrustés, générée par Oreus.">
+<meta property="og:url" content="https://oreus.shadrakbessanh.me/result">
+<meta property="og:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Votre vidéo sous-titrée est prête · Oreus">
+<meta name="twitter:description" content="Téléchargez votre vidéo avec les sous-titres incrustés, générée par Oreus.">
+<meta name="twitter:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;
+  --fg:hsl(0,0%,13%);--fg2:hsl(0,0%,32%);--fg3:hsl(0,0%,52%);
+  --primary:hsl(14,52%,49%);--primary-h:hsl(14,52%,44%);
+  --primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,88%);
+  --border:hsl(40,14%,83%);--muted:hsl(40,16%,91%);
+  --green:hsl(142,50%,40%);--green-lt:hsl(142,50%,95%);--green-bd:hsl(142,50%,75%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.05);
+  --r:8px;--nh:60px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100dvh}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pgshim{to{background-position:200% center}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.au{animation:fadeUp .4s ease both}
+.d1{animation-delay:.06s}.d2{animation-delay:.14s}.d3{animation-delay:.24s}.d4{animation-delay:.36s}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── NAV ── */
+nav.app-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);
+  background:rgba(250,248,244,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:12px;
+}
+.logo-a{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.logo-box{width:32px;height:32px;border-radius:var(--r);background:var(--primary);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--fg);text-transform:uppercase}
+.nav-step{margin-left:auto;font-size:12px;font-weight:500;color:var(--fg3);display:flex;align-items:center;gap:6px}
+.nav-step-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+/* ── PROGRESS BAR ── */
+.pgb{position:fixed;top:var(--nh);left:0;right:0;z-index:99;height:3px;background:var(--muted)}
+.pgf{height:100%;background:var(--primary);transition:width .6s ease}
+.pgf.anim{background:linear-gradient(90deg,var(--primary),hsl(14,62%,62%),var(--primary));background-size:200%;animation:pgshim 1.6s linear infinite}
+
+/* ── SPLIT LAYOUT ── */
+.split{
+  min-height:100dvh;
+  padding-top:var(--nh);
+  display:grid;
+  grid-template-columns:42fr 58fr;
+}
+.panel-l{
+  background:hsl(40,20%,94%);
+  border-right:1px solid var(--border);
+  padding:clamp(32px,5vw,64px) clamp(24px,4vw,52px);
+  display:flex;flex-direction:column;justify-content:center;
+  position:sticky;top:var(--nh);height:calc(100dvh - var(--nh));overflow-y:auto;
+}
+.panel-r{
+  padding:clamp(32px,5vw,64px) clamp(20px,4vw,52px);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:calc(100dvh - var(--nh));
+}
+
+/* Mobile: stack panels */
+@media(max-width:768px){
+  .split{grid-template-columns:1fr}
+  .panel-l{display:none}
+  .panel-r{padding:28px 20px;min-height:auto}
+}
+
+/* ── LEFT PANEL CONTENT ── */
+.pl-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.pl-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+.pl-h1{font-size:clamp(26px,3.5vw,40px);font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1.12;margin-bottom:14px}
+.pl-h1 em{font-style:normal;color:var(--primary)}
+.pl-sub{font-size:clamp(13px,1.4vw,15px);color:var(--fg2);line-height:1.75;margin-bottom:32px;max-width:360px}
+.feat-list{display:flex;flex-direction:column;gap:12px}
+.feat-item{display:flex;align-items:flex-start;gap:12px}
+.feat-ic{width:34px;height:34px;border-radius:var(--r);background:var(--primary-lt);border:1px solid var(--primary-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.feat-body{}
+.feat-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--fg);margin-bottom:2px}
+.feat-desc{font-size:12px;color:var(--fg3);line-height:1.5}
+
+/* Mobile: hide feat list on very small */
+@media(max-width:480px){.feat-list{display:none}}
+
+/* ── FORM CARD ── */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);overflow:hidden;width:100%;max-width:520px}
+
+/* ── BUTTONS ── */
+.btn-primary{width:100%;height:44px;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,transform .1s,box-shadow .15s}
+.btn-primary:hover:not(:disabled){background:var(--primary-h);box-shadow:0 4px 14px hsl(14,52%,49%,.3)}
+.btn-primary:active:not(:disabled){transform:scale(.98)}
+.btn-primary:disabled{opacity:.32;cursor:not-allowed}
+.btn-ghost{width:100%;height:40px;background:transparent;color:var(--fg2);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s,border-color .15s}
+.btn-ghost:hover{background:var(--muted)}
+.divider{height:1px;background:var(--border)}
+
+.result-layout{
+  min-height:100dvh;
+  padding-top:calc(var(--nh)+3px);
+  display:grid;
+  grid-template-columns:58fr 42fr;
+}
+/* Left: video */
+.result-left{
+  background:#0d0d0d;
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(24px,4vw,48px);
+  position:sticky;top:calc(var(--nh)+3px);
+  height:calc(100dvh - var(--nh) - 3px);
+}
+.video-wrap{width:100%;max-width:720px}
+video{width:100%;border-radius:10px;display:block;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+
+/* Right: panel */
+.result-right{
+  padding:clamp(28px,4vw,52px) clamp(20px,4vw,44px);
+  display:flex;flex-direction:column;justify-content:center;gap:24px;
+  background:var(--bg);
+  border-left:1px solid rgba(0,0,0,.1);
+  overflow-y:auto;
+}
+.success-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-lt);border:1px solid var(--green-bd);border-radius:99px;padding:6px 16px 6px 8px;animation:pop .4s ease both}
+.badge-dot{width:24px;height:24px;border-radius:50%;background:hsl(142,50%,82%);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.badge-text{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;color:var(--green)}
+.result-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(22px,3vw,32px);font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1.2}
+.result-sub{font-size:14px;color:var(--fg3);line-height:1.7}
+.lang-tag{display:inline-flex;align-items:center;gap:4px;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;background:var(--primary-lt);border:1px solid var(--primary-mid);color:var(--primary);padding:3px 10px;border-radius:5px;margin-top:6px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.info-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:3px}
+.info-l{font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--fg3)}
+.info-v{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;color:var(--fg)}
+.dl-section{display:flex;flex-direction:column;gap:10px}
+.btn-dl{width:100%;height:48px;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s,transform .1s,box-shadow .15s}
+.btn-dl:hover{background:var(--primary-h);transform:translateY(-1px);box-shadow:0 6px 20px hsl(14,52%,49%,.28)}
+.btn-dl:active{transform:scale(.98)}
+.btn-new2{width:100%;height:42px;background:var(--card);color:var(--fg2);border:1px solid var(--border);border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s}
+.btn-new2:hover{background:var(--muted)}
+.expire-notice{font-size:12px;color:var(--fg3);text-align:center;padding:8px 0;display:flex;align-items:center;justify-content:center;gap:5px}
+/* Mobile: stack */
+@media(max-width:768px){
+  .result-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .result-left{position:static;height:auto;padding:20px;min-height:220px}
+  .result-right{padding:24px 20px}
+  .info-grid{grid-template-columns:1fr 1fr}
+}
+.lang-wrap{position:relative;flex-shrink:0}
+.lang-trigger{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--fg);background:var(--muted);border:1.5px solid var(--border);cursor:pointer;padding:9px 16px;border-radius:10px;transition:all .15s;letter-spacing:.02em;white-space:nowrap}
+.lang-trigger:hover{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-wrap.open .lang-trigger{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-chev{transition:transform .2s;opacity:.6}
+.lang-wrap.open .lang-chev{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;right:0;top:calc(100% + 8px);width:160px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.13);display:none;overflow:hidden;z-index:500;padding:4px}
+.lang-wrap.open .lang-dropdown{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg2);background:transparent;border:none;cursor:pointer;text-align:left;transition:background .12s,color .12s;border-radius:8px}
+.lang-item:hover{background:var(--muted);color:var(--fg)}
+.lang-item.active{background:var(--primary-lt);color:var(--primary)}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.lang-item.active .lang-dot{background:var(--primary)}
+.logo-img{width:34px;height:34px;border-radius:9px;display:block;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a class="logo-a" href="/upload">
+    <img class="logo-img" src="/logo.png" width="34" height="34" alt="Oreus logo">
+    <span class="logo-name">Oreus</span>
+  </a>
+
+  <div class="nav-step" style="color:var(--green)"><div class="nav-step-dot" style="background:var(--green)"></div><span data-i18n="nav_done">Terminé</span></div>
+  <div class="lang-wrap" id="langWrap">
+  <button class="lang-trigger" onclick="toggleLangMenu()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <span id="langCurrent">FR</span>
+    <svg class="lang-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+  </button>
+  <div class="lang-dropdown">
+    <button class="lang-item active" id="langItemFr" onclick="setLang('fr')"><span class="lang-dot"></span>Fran&#231;ais</button>
+    <button class="lang-item" id="langItemEn" onclick="setLang('en')"><span class="lang-dot"></span>English</button>
+  </div>
+</div>
+</nav>
+<div class="pgb"><div class="pgf" style="width:100%;background:var(--green)"></div></div>
+
+<div class="result-layout">
+  <!-- Vidéo full-left -->
+  <div class="result-left">
+    <div class="video-wrap">
+      <video id="vid" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+
+  <!-- Panneau droit -->
+  <div class="result-right">
+    <div class="au d1">
+      <h2 class="result-title" data-i18n="result_title">Votre vidéo<br>est prête !</h2>
+    </div>
+
+    <div class="dl-section au d3">
+      <button class="btn-dl" onclick="dl()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="dl_btn">Télécharger la vidéo</span>
+      </button>
+      <button class="btn-new2" onclick="location.href='/upload'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span data-i18n="new_btn">Traduire une autre vidéo</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const p = new URLSearchParams(location.search);
+const job = p.get('job');
+if (!job) location.href = '/upload';
+document.getElementById('vid').src = '/api/video/' + job;
+function dl() {
+  const a = document.createElement('a'); a.href = '/api/download/' + job; a.download = 'oreus-' + job + '.mp4'; a.click();
+}
+</script>
+
+<script>
+(function(){
+  var L = localStorage.getItem('oreus_lang')||'fr';
+  var T = {
+    fr: {
+      nav_done: 'Terminé',
+      result_title: 'Votre vidéo<br>est prête !',
+      result_sub: 'Les sous-titres ont été incrustés directement dans la vidéo. Vous pouvez la prévisualiser et la télécharger.',
+      info_format: 'Format',
+      info_subtitles: 'Sous-titres',
+      info_status: 'Statut',
+      info_ready: 'Prête',
+      info_available: 'Disponible',
+      dl_btn: 'Télécharger la vidéo',
+      new_btn: 'Traduire une autre vidéo',
+      expire_notice: 'Fichier disponible pendant 24 heures'
+    },
+    en: {
+      nav_done: 'Done',
+      result_title: 'Your video<br>is ready!',
+      result_sub: 'Subtitles have been burned directly into the video. You can preview and download it.',
+      info_format: 'Format',
+      info_subtitles: 'Subtitles',
+      info_status: 'Status',
+      info_ready: 'Ready',
+      info_available: 'Available',
+      dl_btn: 'Download video',
+      new_btn: 'Translate another video',
+      expire_notice: 'File available for 24 hours'
+    }
+  };
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(T[L]&&T[L][k]) el.innerHTML=T[L][k];
+    });
+    var b=document.getElementById('langBtn');
+    var c=document.getElementById('langCurrent');if(c)c.textContent=L.toUpperCase();var fi=document.getElementById('langItemFr'),ei=document.getElementById('langItemEn');if(fi)fi.className='lang-item'+(L==='fr'?' active':'');if(ei)ei.className='lang-item'+(L==='en'?' active':'');
+    document.documentElement.lang=L;
+  }
+  window.setLang=function(lang){
+    if(L===lang){closeLangMenu();return;}
+    L=lang;
+    localStorage.setItem('oreus_lang',L);
+    apply();
+    closeLangMenu();
+  };
+  window.toggleLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.toggle('open');
+  };
+  window.closeLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.remove('open');
+  };
+  document.addEventListener('click',function(e){
+    var w=document.getElementById('langWrap');
+    if(w&&!w.contains(e.target))w.classList.remove('open');
+  });
+  document.addEventListener('DOMContentLoaded',apply);
+})();
+</script>
+</body></html>

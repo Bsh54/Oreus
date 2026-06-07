@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Oreus · Admin</title>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;--fg:hsl(0,0%,13%);--fg2:hsl(0,0%,34%);--fg3:hsl(0,0%,55%);
+  --primary:hsl(14,52%,49%);--primary-h:hsl(14,52%,44%);--primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,88%);
+  --border:hsl(40,14%,85%);--muted:hsl(40,16%,93%);
+  --green:hsl(142,50%,40%);--green-lt:hsl(142,50%,95%);--red:hsl(0,62%,48%);--red-lt:hsl(0,62%,96%);
+  --amber:hsl(38,92%,45%);--amber-lt:hsl(38,92%,95%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 10px -2px rgba(0,0,0,.08);
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif}
+
+.login{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.login-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:34px;max-width:360px;width:100%;box-shadow:var(--shadow-md);text-align:center}
+.login-card h1{font-size:22px;margin-bottom:6px}
+.login-card p{font-size:13px;color:var(--fg3);margin-bottom:20px}
+.login-card input{width:100%;padding:13px 16px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:inherit;margin-bottom:12px;outline:none}
+.login-card input:focus{border-color:var(--primary)}
+.login-card button{width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s}
+.login-card button:hover{background:var(--primary-h)}
+.login-err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
+
+.wrap{max-width:1180px;margin:0 auto;padding:24px clamp(14px,3vw,32px) 60px}
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.topbar h1{font-size:22px;letter-spacing:-.02em}
+.topbar .badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);background:var(--primary-lt);border:1px solid var(--primary-mid);padding:4px 11px;border-radius:99px}
+.topbar .spacer{flex:1}
+.btn{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;border-radius:9px;padding:9px 16px;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--fg2);transition:all .15s;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.btn:hover{border-color:var(--primary);color:var(--primary)}
+
+.tabs{display:flex;gap:6px;margin-bottom:22px;border-bottom:1px solid var(--border)}
+.tab{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg3);background:none;border:none;cursor:pointer;padding:11px 16px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s}
+.tab:hover{color:var(--fg2)}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab .cnt{font-size:11px;background:var(--muted);color:var(--fg3);border-radius:99px;padding:1px 8px;margin-left:6px}
+.tab.active .cnt{background:var(--primary-lt);color:var(--primary)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.kpi-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--fg3);margin-bottom:8px}
+.kpi-val{font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:700;letter-spacing:-.03em;line-height:1;color:var(--fg)}
+.kpi-sub{font-size:12px;color:var(--fg3);margin-top:6px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:20px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+.panel h2{font-size:14px;font-weight:700;color:var(--fg);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.panel h2 span.muted{font-size:11px;font-weight:500;color:var(--fg3)}
+
+.chart{display:flex;align-items:flex-end;gap:5px;height:140px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.bar{width:100%;max-width:26px;background:linear-gradient(180deg,var(--primary),hsl(14,52%,62%));border-radius:5px 5px 0 0;min-height:2px;transition:height .4s ease;position:relative}
+.bar.j{background:linear-gradient(180deg,var(--green),hsl(142,50%,55%))}
+.bar-day{font-size:9px;color:var(--fg3);white-space:nowrap}
+.bar:hover::after{content:attr(data-v);position:absolute;top:-20px;left:50%;transform:translateX(-50%);background:var(--fg);color:#fff;font-size:10px;padding:2px 6px;border-radius:5px;white-space:nowrap}
+
+.lbar{margin-bottom:11px}.lbar:last-child{margin-bottom:0}
+.lbar-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.lbar-top b{font-weight:600;color:var(--fg)}.lbar-top span{color:var(--fg3);font-weight:600}
+.lbar-track{height:7px;background:var(--muted);border-radius:99px;overflow:hidden}
+.lbar-fill{height:100%;background:var(--primary);border-radius:99px}
+.empty{font-size:13px;color:var(--fg3);text-align:center;padding:20px 0}
+
+.steps{display:flex;flex-direction:column;gap:14px}
+.step-row{display:flex;align-items:center;gap:12px}
+.step-ico{width:34px;height:34px;border-radius:9px;background:var(--primary-lt);border:1px solid var(--primary-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.step-meta{flex:1}.step-name{font-size:13px;font-weight:600;color:var(--fg)}
+.step-time{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--primary)}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;font-weight:600;color:var(--fg3);text-transform:uppercase;font-size:10px;letter-spacing:.05em;padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--muted);color:var(--fg2);white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.pill{font-size:11px;font-weight:600;padding:2px 9px;border-radius:99px;display:inline-block}
+.pill.done{background:var(--green-lt);color:var(--green)}
+.pill.error{background:var(--red-lt);color:var(--red)}
+.mono{font-variant-numeric:tabular-nums}.dim{color:var(--fg3)}
+
+/* files grid */
+.files-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.file-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.file-vid{width:100%;aspect-ratio:16/9;background:#0b0a09;object-fit:cover;display:block;border-bottom:1px solid var(--border)}
+.file-body{padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.file-name{font-size:13px;font-weight:600;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-meta{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:11px;font-weight:600;padding:2px 9px;border-radius:6px;background:var(--muted);color:var(--fg2)}
+.tag.lang{background:var(--primary-lt);color:var(--primary)}
+.expire{font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px}
+.expire.ok{color:var(--green)}.expire.soon{color:var(--amber)}
+.file-actions{display:flex;gap:8px;margin-top:4px}
+.file-actions a{flex:1;text-align:center;font-family:'Space Grotesk',sans-serif;font-size:12.5px;font-weight:600;padding:8px;border-radius:8px;text-decoration:none;transition:all .15s}
+.act-view{background:var(--muted);color:var(--fg2)}.act-view:hover{background:var(--border)}
+.act-dl{background:var(--primary);color:#fff}.act-dl:hover{background:var(--primary-h)}
+.files-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.files-head p{font-size:13px;color:var(--fg3)}
+</style>
+</head>
+<body>
+
+<div class="login" id="login">
+  <div class="login-card">
+    <h1>Oreus Admin</h1>
+    <p>Tableau de bord prive</p>
+    <input type="password" id="pw" placeholder="Mot de passe" autocomplete="current-password">
+    <button onclick="doLogin()">Acceder</button>
+    <div class="login-err" id="loginErr"></div>
+  </div>
+</div>
+
+<div class="wrap" id="dash" style="display:none">
+  <div class="topbar">
+    <h1>Oreus</h1><span class="badge">Admin</span>
+    <div class="spacer"></div>
+    <button class="btn" onclick="reloadCurrent()">Actualiser</button>
+    <button class="btn" onclick="logout()">Deconnexion</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tabBtnOverview" onclick="switchTab('overview')">Vue d'ensemble</button>
+    <button class="tab" id="tabBtnFiles" onclick="switchTab('files')">Videos en ligne<span class="cnt" id="filesCount">0</span></button>
+  </div>
+
+  <!-- ── Onglet vue d'ensemble ── -->
+  <div id="tabOverview">
+    <div class="kpis" id="kpis"></div>
+    <div class="grid2">
+      <div class="panel"><h2>Visites <span class="muted">14 derniers jours</span></h2><div class="chart" id="visitsChart"></div></div>
+      <div class="panel"><h2>Videos traitees <span class="muted">14 derniers jours</span></h2><div class="chart" id="jobsChart"></div></div>
+    </div>
+    <div class="grid3">
+      <div class="panel"><h2>Sources de trafic</h2><div id="sources"></div></div>
+      <div class="panel"><h2>Pages vues</h2><div id="pages"></div></div>
+      <div class="panel"><h2>Duree moyenne par etape</h2><div class="steps" id="steps"></div></div>
+    </div>
+    <div class="grid2">
+      <div class="panel"><h2>Langues cibles</h2><div id="langs"></div></div>
+      <div class="panel"><h2>Styles choisis</h2><div id="styles"></div></div>
+    </div>
+    <div class="panel" style="margin-bottom:20px">
+      <h2>Videos recentes</h2>
+      <div class="tbl-wrap"><table id="jobsTbl"><thead><tr>
+        <th>Date</th><th>Fichier</th><th>Langues</th><th>Style</th><th>Taille</th>
+        <th>Transcr.</th><th>Trad.</th><th>Incrust.</th><th>Total</th><th>Statut</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="panel">
+      <h2>Visites recentes</h2>
+      <div class="tbl-wrap"><table id="visitsTbl"><thead><tr>
+        <th>Date</th><th>Page</th><th>Source</th><th>Referrer</th><th>IP</th>
+      </tr></thead><tbody></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ── Onglet videos en ligne ── -->
+  <div id="tabFiles" style="display:none">
+    <div class="files-head">
+      <p id="filesInfo">Videos encore disponibles (supprimees automatiquement 24h apres leur creation).</p>
+      <button class="btn" onclick="loadFiles()">Rafraichir</button>
+    </div>
+    <div class="files-grid" id="filesGrid"></div>
+  </div>
+</div>
+
+<script>
+let KEY = localStorage.getItem('oreus_admin_key') || '';
+let currentTab = 'overview';
+
+function doLogin(){ KEY = document.getElementById('pw').value.trim(); load(true); }
+function logout(){ localStorage.removeItem('oreus_admin_key'); KEY=''; location.reload(); }
+document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+function switchTab(t){
+  currentTab=t;
+  document.getElementById('tabOverview').style.display = t==='overview'?'block':'none';
+  document.getElementById('tabFiles').style.display = t==='files'?'block':'none';
+  document.getElementById('tabBtnOverview').classList.toggle('active',t==='overview');
+  document.getElementById('tabBtnFiles').classList.toggle('active',t==='files');
+  if(t==='files') loadFiles();
+}
+function reloadCurrent(){ currentTab==='files'? loadFiles() : load(); }
+
+function fmtTime(ts){
+  const d=new Date(ts*1000);
+  return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+
+         d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+function secs(v){ return v && v>0 ? Math.round(v)+'s' : '–'; }
+function dur(s){
+  s=Math.max(0,Math.round(s));
+  const h=Math.floor(s/3600), m=Math.floor((s%3600)/60);
+  if(h>0) return h+'h'+(m?(' '+m+'min'):'');
+  if(m>0) return m+' min';
+  return s+' s';
+}
+function esc(s){ return (s||'').replace(/[<>&]/g,m=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[m])); }
+
+function kpi(label,val,sub){
+  return `<div class="kpi"><div class="kpi-label">${label}</div><div class="kpi-val">${val}</div>`+
+         (sub?`<div class="kpi-sub">${sub}</div>`:'')+`</div>`;
+}
+function barChart(el,series,cls){
+  const max=Math.max(1,...series.map(s=>s.count));
+  el.innerHTML=series.map(s=>{
+    const h=Math.round(s.count/max*100), dd=s.day.slice(8)+'/'+s.day.slice(5,7);
+    return `<div class="bar-col"><div class="bar ${cls}" style="height:${h}%" data-v="${s.count}"></div><div class="bar-day">${dd}</div></div>`;
+  }).join('');
+}
+function listBars(el,items){
+  if(!items.length){el.innerHTML='<div class="empty">Aucune donnee</div>';return;}
+  const max=Math.max(1,...items.map(i=>i.count));
+  el.innerHTML=items.map(i=>{
+    const w=Math.round(i.count/max*100);
+    return `<div class="lbar"><div class="lbar-top"><b>${esc(String(i.name))}</b><span>${i.count}</span></div>`+
+           `<div class="lbar-track"><div class="lbar-fill" style="width:${w}%"></div></div></div>`;
+  }).join('');
+}
+function stepRow(ico,name,val){
+  return `<div class="step-row"><div class="step-ico">${ico}</div>`+
+    `<div class="step-meta"><div class="step-name">${name}</div></div><div class="step-time">${secs(val)}</div></div>`;
+}
+
+async function load(fromLogin){
+  const err=document.getElementById('loginErr');
+  try{
+    const r=await fetch('/api/admin/stats?key='+encodeURIComponent(KEY));
+    if(r.status===401){ if(err)err.textContent='Mot de passe incorrect'; return; }
+    if(!r.ok){ if(err)err.textContent='Erreur '+r.status; return; }
+    const d=await r.json();
+    localStorage.setItem('oreus_admin_key',KEY);
+    document.getElementById('login').style.display='none';
+    document.getElementById('dash').style.display='block';
+    render(d);
+  }catch(e){ if(err)err.textContent='Connexion impossible'; }
+}
+
+function render(d){
+  const t=d.totals, rate=t.jobs? Math.round(t.done/t.jobs*100):0;
+  document.getElementById('kpis').innerHTML=
+    kpi('Visites',t.visits,t.unique+' visiteurs uniques')+
+    kpi('Videos traitees',t.jobs,t.done+' reussies · '+t.error+' echecs')+
+    kpi('Taux de reussite',rate+'%','')+
+    kpi('Duree moyenne',secs(d.avg.total),'par video')+
+    kpi('Poids moyen',(t.avg_size||0)+' Mo','par fichier');
+  barChart(document.getElementById('visitsChart'),d.visits_series,'');
+  barChart(document.getElementById('jobsChart'),d.jobs_series,'j');
+  listBars(document.getElementById('sources'),d.sources);
+  listBars(document.getElementById('pages'),d.pages);
+  listBars(document.getElementById('langs'),d.langs);
+  listBars(document.getElementById('styles'),d.styles);
+  document.getElementById('steps').innerHTML=
+    stepRow('🎙️','Transcription',d.avg.transcribe)+
+    stepRow('🌐','Traduction',d.avg.translate)+
+    stepRow('🎬','Incrustation',d.avg.burn);
+  const jb=document.querySelector('#jobsTbl tbody');
+  jb.innerHTML=d.recent_jobs.length? d.recent_jobs.map(j=>{
+    const langs=`${esc(j.src_lang||'auto')} → ${esc(j.tgt_lang||'?')}`;
+    const st=j.status==='done'?'<span class="pill done">OK</span>':'<span class="pill error">Echec</span>';
+    return `<tr><td class="dim mono">${fmtTime(j.ts)}</td><td>${esc((j.filename||'').slice(0,30))}</td>`+
+      `<td>${langs}</td><td>${esc(j.sub_style||'')}</td><td class="mono">${j.size_mb||0} Mo</td>`+
+      `<td class="mono">${secs(j.t_transcribe)}</td><td class="mono">${secs(j.t_translate)}</td>`+
+      `<td class="mono">${secs(j.t_burn)}</td><td class="mono"><b>${secs(j.t_total)}</b></td><td>${st}</td></tr>`;
+  }).join('') : '<tr><td colspan="10" class="empty">Aucune video</td></tr>';
+  const vb=document.querySelector('#visitsTbl tbody');
+  vb.innerHTML=d.recent_visits.length? d.recent_visits.map(v=>
+    `<tr><td class="dim mono">${fmtTime(v.ts)}</td><td>${esc(v.path)}</td>`+
+    `<td>${esc(v.source)}</td><td class="dim">${esc((v.referrer||'').slice(0,40))||'–'}</td>`+
+    `<td class="dim mono">${esc(v.ip||'')}</td></tr>`
+  ).join('') : '<tr><td colspan="5" class="empty">Aucune visite</td></tr>';
+}
+
+async function loadFiles(){
+  const grid=document.getElementById('filesGrid');
+  grid.innerHTML='<div class="empty">Chargement...</div>';
+  try{
+    const r=await fetch('/api/admin/files?key='+encodeURIComponent(KEY));
+    if(!r.ok){ grid.innerHTML='<div class="empty">Erreur '+r.status+'</div>'; return; }
+    const d=await r.json();
+    document.getElementById('filesCount').textContent=d.count;
+    if(!d.files.length){ grid.innerHTML='<div class="empty">Aucune video en ligne actuellement.</div>'; return; }
+    const k=encodeURIComponent(KEY);
+    grid.innerHTML=d.files.map(f=>{
+      const url='/api/admin/file/'+encodeURIComponent(f.job_id)+'?key='+k;
+      const soon=f.expires_in < 3*3600;
+      const langs=`${esc(f.src_lang||'auto')} → ${esc(f.tgt_lang||'?')}`;
+      return `<div class="file-card">
+        <video class="file-vid" src="${url}#t=0.5" preload="metadata" muted></video>
+        <div class="file-body">
+          <div class="file-name" title="${esc(f.filename||f.job_id)}">${esc(f.filename||f.job_id)}</div>
+          <div class="file-meta">
+            <span class="tag lang">${langs}</span>
+            ${f.sub_style?`<span class="tag">${esc(f.sub_style)}</span>`:''}
+            <span class="tag">${f.size_mb} Mo</span>
+          </div>
+          <div class="expire ${soon?'soon':'ok'}">⏳ Expire dans ${dur(f.expires_in)}</div>
+          <div class="file-actions">
+            <a class="act-view" href="${url}" target="_blank">Voir</a>
+            <a class="act-dl" href="${url}&dl=1">Telecharger</a>
+          </div>
+        </div></div>`;
+    }).join('');
+  }catch(e){ grid.innerHTML='<div class="empty">Connexion impossible</div>'; }
+}
+
+if(KEY) load();
+</script>
+</body>
+</html>

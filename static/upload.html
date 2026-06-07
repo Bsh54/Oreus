@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icon-180.png">
+<link rel="manifest" href="/site.webmanifest">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Importer une vidéo · Oreus</title>
+<meta name="description" content="Importez votre vidéo sur Oreus pour générer des sous-titres automatiques par IA. Formats MP4, MOV, AVI, MKV et WebM acceptés jusqu'à 500 Mo.">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Oreus">
+<meta name="theme-color" content="#BE5A3C">
+<link rel="canonical" href="https://oreus.shadrakbessanh.me/upload">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Oreus">
+<meta property="og:title" content="Importer une vidéo · Oreus">
+<meta property="og:description" content="Importez votre vidéo sur Oreus pour générer des sous-titres automatiques par IA. Formats MP4, MOV, AVI, MKV et WebM acceptés jusqu'à 500 Mo.">
+<meta property="og:url" content="https://oreus.shadrakbessanh.me/upload">
+<meta property="og:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Importer une vidéo · Oreus">
+<meta name="twitter:description" content="Importez votre vidéo sur Oreus pour générer des sous-titres automatiques par IA. Formats MP4, MOV, AVI, MKV et WebM acceptés jusqu'à 500 Mo.">
+<meta name="twitter:image" content="https://oreus.shadrakbessanh.me/og-image.png">
+<meta name="keywords" content="générateur de sous-titres, sous-titres automatiques, sous-titres IA, ajouter des sous-titres à une vidéo, traduire une vidéo, incruster des sous-titres, sous-titres vidéo gratuit, sous-titres langues africaines, sous-titres swahili, sous-titres yoruba, sous-titres hausa, sous-titres wolof, sous-titres lingala, subtitle generator, auto subtitles, add subtitles to video, African language subtitles, Oreus">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+:root{
+  --bg:hsl(40,15%,97%);--card:#fff;
+  --fg:hsl(0,0%,13%);--fg2:hsl(0,0%,32%);--fg3:hsl(0,0%,52%);
+  --primary:hsl(14,52%,49%);--primary-h:hsl(14,52%,44%);
+  --primary-lt:hsl(14,52%,96%);--primary-mid:hsl(14,52%,88%);
+  --border:hsl(40,14%,83%);--muted:hsl(40,16%,91%);
+  --green:hsl(142,50%,40%);--green-lt:hsl(142,50%,95%);--green-bd:hsl(142,50%,75%);
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px -1px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px -1px rgba(0,0,0,.08),0 2px 4px -2px rgba(0,0,0,.05);
+  --r:8px;--nh:60px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;min-height:100dvh}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;line-height:1.15}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pgshim{to{background-position:200% center}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.06)}100%{transform:scale(1);opacity:1}}
+.au{animation:fadeUp .4s ease both}
+.d1{animation-delay:.06s}.d2{animation-delay:.14s}.d3{animation-delay:.24s}.d4{animation-delay:.36s}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ── NAV ── */
+nav.app-nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);
+  background:rgba(250,248,244,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:12px;
+}
+.logo-a{display:inline-flex;align-items:center;gap:9px;text-decoration:none}
+.logo-box{width:32px;height:32px;border-radius:var(--r);background:var(--primary);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;letter-spacing:.03em;color:var(--fg);text-transform:uppercase}
+.nav-step{margin-left:auto;font-size:12px;font-weight:500;color:var(--fg3);display:flex;align-items:center;gap:6px}
+.nav-step-dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+/* ── PROGRESS BAR ── */
+.pgb{position:fixed;top:var(--nh);left:0;right:0;z-index:99;height:3px;background:var(--muted)}
+.pgf{height:100%;background:var(--primary);transition:width .6s ease}
+.pgf.anim{background:linear-gradient(90deg,var(--primary),hsl(14,62%,62%),var(--primary));background-size:200%;animation:pgshim 1.6s linear infinite}
+
+/* ── SPLIT LAYOUT ── */
+.split{
+  min-height:100dvh;
+  padding-top:var(--nh);
+  display:grid;
+  grid-template-columns:42fr 58fr;
+}
+.panel-l{
+  background:hsl(40,20%,94%);
+  border-right:1px solid var(--border);
+  padding:clamp(32px,5vw,64px) clamp(24px,4vw,52px);
+  display:flex;flex-direction:column;justify-content:center;
+  position:sticky;top:var(--nh);height:calc(100dvh - var(--nh));overflow:hidden;
+}
+.panel-r{
+  padding:clamp(32px,5vw,64px) clamp(20px,4vw,52px);
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:calc(100dvh - var(--nh));
+}
+
+/* Mobile: stack panels */
+@media(max-width:768px){
+  .split{grid-template-columns:1fr}
+  .panel-l{display:none}
+  .panel-r{padding:28px 20px;min-height:auto}
+}
+
+/* ── FORM CARD ── */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);overflow:hidden;width:100%;max-width:520px}
+
+/* ── BUTTONS ── */
+.btn-primary{width:100%;height:44px;background:var(--primary);color:#fff;border:none;border-radius:var(--r);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,transform .1s,box-shadow .15s}
+.btn-primary:hover:not(:disabled){background:var(--primary-h);box-shadow:0 4px 14px hsl(14,52%,49%,.3)}
+.btn-primary:active:not(:disabled){transform:scale(.98)}
+.btn-primary:disabled{opacity:.32;cursor:not-allowed}
+.btn-ghost{width:100%;height:40px;background:transparent;color:var(--fg2);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s,border-color .15s}
+.btn-ghost:hover{background:var(--muted)}
+.divider{height:1px;background:var(--border)}
+
+/* Drop zone */
+.dz-wrap{padding:28px}
+.dz{
+  padding:clamp(32px,5vw,52px) 24px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  cursor:pointer;
+  border:2px dashed var(--border);border-radius:10px;
+  transition:background .15s,border-color .15s;
+  background:var(--bg);
+}
+.dz:hover,.dz.drag{background:var(--primary-lt);border-color:var(--primary)}
+.up-orb{
+  width:72px;height:72px;border-radius:50%;
+  background:var(--primary-lt);border:2px solid var(--primary-mid);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+  transition:transform .2s,box-shadow .2s;
+}
+.dz:hover .up-orb,.dz.drag .up-orb{transform:translateY(-4px);box-shadow:0 10px 28px hsl(14,52%,49%,.22)}
+.dz-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:var(--fg);margin-bottom:6px}
+.dz-hint{font-size:13px;color:var(--fg3);margin-bottom:16px;line-height:1.6}
+.dz-hint b{color:var(--primary);font-weight:600}
+.fmt-row{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-bottom:10px}
+.fmt{background:var(--card);border:1px solid var(--border);color:var(--fg2);font-size:10px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:5px}
+.limit{font-size:12px;color:var(--fg3)}
+
+/* Upload progress */
+#stateUpload{display:none;padding:28px;flex-direction:column;align-items:center;gap:18px;text-align:center}
+.ring-wrap{position:relative;width:clamp(120px,18vw,152px);height:clamp(120px,18vw,152px)}
+.rsvg{transform:rotate(-90deg);width:100%;height:100%}
+.rbg{fill:none;stroke:var(--muted);stroke-width:8}
+.rfill{fill:none;stroke:var(--primary);stroke-width:8;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408}
+.rctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rpct{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,5vw,36px);font-weight:700;letter-spacing:-.04em;color:var(--primary);line-height:1}
+.rsym{font-size:11px;color:var(--fg3);margin-top:3px}
+.uph2{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--fg)}
+.upfn{font-size:13px;color:var(--fg3);max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-wrap{width:100%}
+.bar-out{height:6px;background:var(--muted);border-radius:99px;overflow:hidden}
+.bar-in{height:100%;background:linear-gradient(90deg,var(--primary),hsl(14,58%,62%));border-radius:99px;width:0%}
+.bar-row{display:flex;justify-content:space-between;margin-top:6px}
+.bar-lbl{font-size:11px;color:var(--fg3)}
+.stats-row{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:11px 8px;text-align:center}
+.stat-l{font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--fg3);margin-bottom:3px}
+.stat-v{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--fg)}
+.card-footer{padding:14px 28px;background:var(--bg);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.btn-cancel{display:inline-flex;align-items:center;gap:5px;background:transparent;color:var(--fg3);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:500;padding:7px 14px;cursor:pointer;transition:background .15s,color .15s}
+.btn-cancel:hover{background:hsl(0,60%,97%);color:hsl(0,60%,45%);border-color:hsl(0,60%,82%)}
+.chunk-lbl{font-size:11px;color:var(--fg3)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999;background:var(--card);border:1px solid hsl(0,60%,85%);color:hsl(0,60%,40%);font-size:13px;font-weight:500;padding:10px 20px;border-radius:var(--r);box-shadow:var(--shadow-md);max-width:88vw;white-space:nowrap}
+
+/* ── LEFT PANEL TEXT ── */
+.pl-text{margin-bottom:clamp(28px,4vw,40px)}
+.pl-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.pl-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0}
+.pl-h1{font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1.12;margin-bottom:12px}
+.pl-h1 em{font-style:normal;color:var(--primary)}
+.pl-sub{font-size:clamp(12px,1.3vw,14px);color:var(--fg2);line-height:1.7}
+
+
+/* ── LEFT PANEL ── */
+.pl-text{margin-bottom:clamp(24px,3.5vw,36px)}
+.pl-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.pl-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);flex-shrink:0}
+.pl-h1{font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:-.03em;color:var(--fg);line-height:1.12;margin-bottom:12px}
+.pl-h1 em{font-style:normal;color:var(--primary)}
+.pl-sub{font-size:clamp(12px,1.3vw,14px);color:var(--fg2);line-height:1.7}
+
+/* ── DRAG & DROP ANIM ── */
+.dda{
+  position:relative;
+  width:100%;
+  height:clamp(200px,28vw,280px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Zone de dépôt */
+.dda-zone{
+  width:100%;
+  height:100%;
+  border:2px dashed var(--border);
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  background:var(--bg);
+  transition:border-color .3s, background .3s, box-shadow .3s;
+}
+.dda-zone.lit{
+  border-color:var(--primary);
+  background:var(--primary-lt);
+  box-shadow:0 0 0 4px hsl(14,52%,49%,.1);
+}
+.dda-zone-ic{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--primary-lt);border:1.5px solid var(--primary-mid);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s, box-shadow .3s;
+}
+.dda-zone.lit .dda-zone-ic{
+  transform:scale(1.1);
+  box-shadow:0 6px 18px hsl(14,52%,49%,.22);
+}
+.dda-zone-lbl{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:13px;font-weight:600;color:var(--fg3);
+  transition:color .3s;
+}
+.dda-zone.lit .dda-zone-lbl{color:var(--primary)}
+
+/* Fichier draggé */
+.dda-file{
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  padding:10px 14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.1), 0 1px 4px rgba(0,0,0,.06);
+  width:calc(100% - 48px);
+  transform:translateX(-50%) rotate(0deg);
+  animation:dragFile 3.6s ease-in-out infinite;
+  cursor:grab;
+}
+@keyframes dragFile{
+  0%   {bottom:16px; transform:translateX(-50%) rotate(0deg); box-shadow:0 4px 18px rgba(0,0,0,.1); opacity:1}
+  12%  {bottom:16px; transform:translateX(-50%) rotate(-2deg); box-shadow:0 8px 28px rgba(0,0,0,.16)}
+  52%  {bottom:calc(100% - 80px); transform:translateX(-50%) rotate(-2deg); box-shadow:0 16px 40px rgba(0,0,0,.18); opacity:1}
+  62%  {bottom:calc(100% - 60px); transform:translateX(-50%) rotate(0deg) scale(.92); opacity:0}
+  63%  {bottom:16px; transform:translateX(-50%) scale(.7); opacity:0}
+  78%  {bottom:16px; transform:translateX(-50%) scale(1.04); opacity:1}
+  88%  {transform:translateX(-50%) scale(1); box-shadow:0 4px 18px rgba(0,0,0,.1)}
+  100% {bottom:16px; transform:translateX(-50%) rotate(0deg); opacity:1}
+}
+
+.dda-thumb{
+  width:40px;height:40px;border-radius:6px;overflow:hidden;flex-shrink:0;
+  background:hsl(14,52%,49%);display:flex;align-items:center;justify-content:center;
+}
+.dda-meta{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.dda-name{font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:var(--fg);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dda-size{font-size:11px;color:var(--fg3)}
+.dda-badge{
+  font-family:'Space Grotesk',sans-serif;font-size:9px;font-weight:700;
+  background:var(--primary-lt);color:var(--primary);border:1px solid var(--primary-mid);
+  padding:2px 7px;border-radius:4px;flex-shrink:0;letter-spacing:.04em;
+}
+
+/* Curseur main sur le fichier */
+.dda-cursor{
+  position:absolute;
+  bottom:-10px;right:12px;
+  animation:cursorMove 3.6s ease-in-out infinite;
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));
+}
+@keyframes cursorMove{
+  0%   {opacity:1;transform:translate(0,0)}
+  12%  {opacity:1;transform:translate(-4px,-4px)}
+  52%  {opacity:1;transform:translate(-4px,-120px)}
+  62%  {opacity:0;transform:translate(-4px,-130px)}
+  63%  {opacity:0;transform:translate(0,0)}
+  75%  {opacity:0}
+  78%  {opacity:1;transform:translate(0,0)}
+  100% {opacity:1;transform:translate(0,0)}
+}
+
+/* Flash succès sur la zone */
+@keyframes zoneFlash{
+  0%,100%{opacity:0} 50%{opacity:1}
+}
+
+/* == UPLOAD PROGRESS LEFT == */
+.pu-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%}
+.pu-bars{display:flex;align-items:flex-end;justify-content:center;gap:5px;height:80px}
+.pu-b{width:10px;border-radius:6px;background:var(--primary);animation:puWave 1.1s ease-in-out infinite}
+.pu-b:nth-child(1){animation-delay:.0s}.pu-b:nth-child(2){animation-delay:.1s}
+.pu-b:nth-child(3){animation-delay:.2s}.pu-b:nth-child(4){animation-delay:.3s}
+.pu-b:nth-child(5){animation-delay:.4s}.pu-b:nth-child(6){animation-delay:.5s}
+.pu-b:nth-child(7){animation-delay:.6s}.pu-b:nth-child(8){animation-delay:.7s}
+@keyframes puWave{0%,100%{height:30%;opacity:.45}50%{height:100%;opacity:1}}
+.pu-label{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--fg2)}
+.pu-fname{font-size:12px;color:var(--fg3);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+
+
+
+.lang-wrap{position:relative;flex-shrink:0}
+.lang-trigger{display:inline-flex;align-items:center;gap:7px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--fg);background:var(--muted);border:1.5px solid var(--border);cursor:pointer;padding:9px 16px;border-radius:10px;transition:all .15s;letter-spacing:.02em;white-space:nowrap}
+.lang-trigger:hover{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-wrap.open .lang-trigger{background:var(--primary-lt);border-color:var(--primary);color:var(--primary)}
+.lang-chev{transition:transform .2s;opacity:.6}
+.lang-wrap.open .lang-chev{transform:rotate(180deg)}
+.lang-dropdown{position:absolute;right:0;top:calc(100% + 8px);width:160px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.13);display:none;overflow:hidden;z-index:500;padding:4px}
+.lang-wrap.open .lang-dropdown{display:block}
+.lang-item{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--fg2);background:transparent;border:none;cursor:pointer;text-align:left;transition:background .12s,color .12s;border-radius:8px}
+.lang-item:hover{background:var(--muted);color:var(--fg)}
+.lang-item.active{background:var(--primary-lt);color:var(--primary)}
+.lang-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0}
+.lang-item.active .lang-dot{background:var(--primary)}
+.logo-img{width:34px;height:34px;border-radius:9px;display:block;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a class="logo-a" href="/">
+    <img class="logo-img" src="/logo.png" width="34" height="34" alt="Oreus logo">
+    <span class="logo-name">Oreus</span>
+  </a>
+
+  <div class="nav-step"><div class="nav-step-dot"></div><span data-i18n="nav_step">Étape 1 sur 3</span></div>
+  <div class="lang-wrap" id="langWrap">
+  <button class="lang-trigger" onclick="toggleLangMenu()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    <span id="langCurrent">FR</span>
+    <svg class="lang-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6,9 12,15 18,9"/></svg>
+  </button>
+  <div class="lang-dropdown">
+    <button class="lang-item active" id="langItemFr" onclick="setLang('fr')"><span class="lang-dot"></span>Fran&#231;ais</button>
+    <button class="lang-item" id="langItemEn" onclick="setLang('en')"><span class="lang-dot"></span>English</button>
+  </div>
+</div>
+</nav>
+<div class="pgb"><div class="pgf" style="width:33%"></div></div>
+
+<div class="split">
+  <!-- PANNEAU GAUCHE -->
+  <div class="panel-l">
+    <div class="pl-text au d1">
+      <h1 class="pl-h1" data-i18n="panel_title">Importez<br>votre <em>vidéo</em></h1>
+      <p class="pl-sub" data-i18n="panel_sub">Glissez-déposez ou sélectionnez un fichier.<br>MP4, MOV, AVI, MKV, WebM · max 500 Mo.</p>
+    </div>
+
+    <!-- DRAG & DROP ANIMATION -->
+    <div id="plIdle" style="width:100%">
+    <div class="dda au d2">
+
+      <!-- Zone de dépôt -->
+      <div class="dda-zone" id="ddaZone">
+        <div class="dda-zone-ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.6" stroke-linecap="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17,8 12,3 7,8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <p class="dda-zone-lbl" data-i18n="drop_here">Déposez ici</p>
+      </div>
+
+      <!-- Fichier vidéo qui se déplace -->
+      <div class="dda-file" id="ddaFile">
+        <!-- Miniature vidéo -->
+        <div class="dda-thumb">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <rect x="0" y="0" width="24" height="24" rx="0" fill="hsl(14,52%,49%)"/>
+            <polygon points="9,7 9,17 17,12" fill="white" opacity=".9"/>
+          </svg>
+        </div>
+        <div class="dda-meta">
+          <span class="dda-name">conference_paris.mp4</span>
+          <span class="dda-size">148 Mo · 1080p</span>
+        </div>
+        <span class="dda-badge">MP4</span>
+        <!-- Curseur main -->
+        <div class="dda-cursor">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="hsl(0,0%,30%)" stroke-width="1">
+            <path d="M4 4l7 18 3-7 7-3z"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+    </div><!-- /plIdle -->
+
+    <div id="plUploading" style="display:none;width:100%">
+      <div class="pu-wrap">
+        <div class="pu-bars">
+          <div class="pu-b"></div><div class="pu-b"></div><div class="pu-b"></div>
+          <div class="pu-b"></div><div class="pu-b"></div><div class="pu-b"></div>
+          <div class="pu-b"></div><div class="pu-b"></div>
+        </div>
+        <p class="pu-label" data-i18n="sending">Envoi en cours...</p>
+        <p class="pu-fname" id="puFname"></p>
+      </div>
+    </div>
+
+
+  </div>
+
+  <!-- PANNEAU DROIT -->
+  <div class="panel-r">
+    <div class="form-card au d2">
+      <div id="paneFile">
+      <!-- État vide -->
+      <div id="stateEmpty">
+        <div class="dz-wrap">
+          <div class="dz" id="dz" onclick="document.getElementById('fi').click()" tabindex="0" role="button" aria-label="Sélectionner une vidéo">
+            <div class="up-orb">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.7" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <p class="dz-title" data-i18n="dz_title">Glissez votre vidéo ici</p>
+            <p class="dz-hint" data-i18n="dz_hint">ou <b>cliquez pour parcourir</b> vos fichiers</p>
+            <div class="fmt-row"><span class="fmt">MP4</span><span class="fmt">MOV</span><span class="fmt">AVI</span><span class="fmt">MKV</span><span class="fmt">WebM</span></div>
+            <p class="limit" data-i18n="size_limit">Taille maximale : 500 Mo</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- État upload -->
+      <div id="stateUpload">
+        <div class="ring-wrap">
+          <svg class="rsvg" viewBox="0 0 152 152">
+            <circle class="rbg" cx="76" cy="76" r="65"/>
+            <circle class="rfill" id="rf" cx="76" cy="76" r="65"/>
+          </svg>
+          <div class="rctr"><span class="rpct" id="rp">0</span><span class="rsym">%</span></div>
+        </div>
+        <div><p class="uph2" id="uTitle" data-i18n="sending">Envoi en cours...</p><p class="upfn" id="ufn"></p></div>
+        <div class="bar-wrap">
+          <div class="bar-out"><div class="bar-in" id="bi"></div></div>
+          <div class="bar-row"><span class="bar-lbl" id="bl" data-i18n="transfer">Transfert...</span><span class="bar-lbl" id="bt"></span></div>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-l" data-i18n="stat_sent">Envoyé</div><div class="stat-v" id="ss">—</div></div>
+          <div class="stat"><div class="stat-l" data-i18n="stat_speed">Vitesse</div><div class="stat-v" id="sv">...</div></div>
+          <div class="stat"><div class="stat-l" data-i18n="stat_rem">Restant</div><div class="stat-v" id="se">...</div></div>
+        </div>
+      </div>
+
+      </div><!-- /paneFile -->
+      <div class="card-footer" id="cardFooter" style="display:none">
+        <button class="btn-cancel" onclick="cancelUpload()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-i18n="cancel">Annuler</span>
+        </button>
+        <span class="chunk-lbl" id="chunkLbl"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="fi" accept="video/*" style="display:none" onchange="pickFile(this.files[0])">
+<script>
+const CIRC = 2 * Math.PI * 65;
+const CHUNK = 1 * 1024 * 1024;
+let aborted = false, file = null, t0 = 0;
+let displayPct = 0, targetPct = 0, rafId = null;
+let currentXhr = null;
+
+function animLoop() {
+  if (displayPct < targetPct) {
+    displayPct = Math.min(displayPct + 0.7, targetPct);
+    document.getElementById('rf').style.strokeDashoffset = CIRC * (1 - displayPct / 100);
+    document.getElementById('rp').textContent = Math.floor(displayPct);
+    document.getElementById('bi').style.width = displayPct + '%';
+  }
+  rafId = requestAnimationFrame(animLoop);
+}
+
+function showState(s) {
+  document.getElementById('stateEmpty').style.display = s === 'empty' ? 'block' : 'none';
+  const u = document.getElementById('stateUpload');
+  u.style.display = s === 'upload' ? 'flex' : 'none';
+  if (s === 'upload') u.style.flexDirection = 'column';
+  document.getElementById('cardFooter').style.display = s === 'upload' ? 'flex' : 'none';
+  var idle = document.getElementById('plIdle');
+  var upl  = document.getElementById('plUploading');
+  if (idle) idle.style.display = s === 'upload' ? 'none' : 'block';
+  if (upl)  upl.style.display  = s === 'upload' ? 'block' : 'none';
+  if (s === 'upload') {
+    var fn = document.getElementById('ufn');
+    var pf = document.getElementById('puFname');
+    if (fn && pf) pf.textContent = fn.textContent;
+  }
+}
+
+function pickFile(f) {
+  if (!f) return;
+  if (f.size > 524288000) { toast('Fichier trop volumineux (max 500 Mo)'); return; }
+  file = f;
+  document.getElementById('ufn').textContent = f.name;
+  document.getElementById('bt').textContent = fmt(f.size);
+  displayPct = 0; targetPct = 0;
+  showState('upload');
+  t0 = Date.now();
+  if (!rafId) animLoop();
+  startChunked();
+}
+
+function cancelUpload() {
+  aborted = true;
+  if (currentXhr) { currentXhr.abort(); currentXhr = null; }
+  file = null; document.getElementById('fi').value = '';
+  displayPct = 0; targetPct = 0;
+  showState('empty');
+}
+
+async function startChunked() {
+  aborted = false;
+  const totalChunks = Math.ceil(file.size / CHUNK);
+  let r = await fetch('/api/upload/init', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({filename:file.name, total_size:file.size, total_chunks:totalChunks})
+  }).catch(()=>null);
+  if (!r||!r.ok){showState('empty');toast('Erreur initialisation');return;}
+  const {upload_id} = await r.json();
+
+  let sentTotal = 0;
+  for (let i = 0; i < totalChunks; i++) {
+    if (aborted) return;
+    const blob = file.slice(i*CHUNK, Math.min((i+1)*CHUNK, file.size));
+    document.getElementById('chunkLbl').textContent = 'Partie '+(i+1)+' / '+totalChunks;
+
+    // XHR avec retry (3 essais)
+    let ok = false;
+    for (let attempt = 0; attempt < 3 && !ok; attempt++) {
+      ok = await new Promise(resolve => {
+        if (aborted){resolve(false);return;}
+        const fd = new FormData();
+        fd.append('upload_id', upload_id);
+        fd.append('chunk_index', String(i));
+        fd.append('chunk', blob, file.name);
+        const xhr = new XMLHttpRequest();
+        currentXhr = xhr;
+        xhr.open('POST', '/api/upload/chunk');
+        xhr.onload  = () => resolve(xhr.status === 200);
+        xhr.onerror = () => resolve(false);
+        xhr.onabort = () => resolve(false);
+        xhr.upload.onprogress = ev => {
+          if (!ev.lengthComputable) return;
+          const chunkSent = sentTotal + ev.loaded;
+          const pct = Math.round(chunkSent / file.size * 95);
+          targetPct = Math.max(targetPct, pct);
+          const elapsed = (Date.now()-t0)/1000;
+          const speed = chunkSent/elapsed;
+          const rem = (file.size-chunkSent)/speed;
+          document.getElementById('sv').textContent = fmt(speed)+'/s';
+          document.getElementById('se').textContent = rem<60?Math.round(rem)+'s':Math.round(rem/60)+'min';
+          document.getElementById('ss').textContent = fmt(chunkSent);
+          document.getElementById('bi').style.width = pct+'%';
+        };
+        xhr.send(fd);
+      });
+      if (!ok && attempt < 2) await new Promise(res=>setTimeout(res,600));
+    }
+
+    if (!ok) {
+      if (!aborted){showState('empty');toast('Erreur upload, veuillez reessayer');}
+      return;
+    }
+    sentTotal += blob.size;
+  }
+
+  targetPct = 98;
+  document.getElementById('bl').textContent = 'Finalisation...';
+  const fr = await fetch('/api/upload/finalize',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({upload_id,filename:file.name,total_chunks:totalChunks})
+  }).catch(()=>null);
+  if (!fr||!fr.ok){showState('empty');toast('Erreur finalisation');return;}
+  const {job_id} = await fr.json();
+  targetPct = 100;
+  setTimeout(()=>{window.location.href='/languages?job='+job_id;},600);
+}
+
+function fmt(b) {
+  if (b < 1024) return b + ' o';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' Ko';
+  if (b < 1073741824) return (b/1048576).toFixed(1) + ' Mo';
+  return (b/1073741824).toFixed(2) + ' Go';
+}
+
+function toast(msg, duration) {
+  var t = document.querySelector('.toast');
+  if (t) t.remove();
+  t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, duration || 4000);
+}
+
+// Drag & drop sur la drop zone
+var dz = document.getElementById('dz');
+if (dz) {
+  dz.addEventListener('dragover', function(e){ e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', function(){ dz.classList.remove('drag'); });
+  dz.addEventListener('drop', function(e){
+    e.preventDefault(); dz.classList.remove('drag');
+    var f = e.dataTransfer.files[0];
+    if (f) pickFile(f);
+  });
+}
+</script>
+
+<script>
+(function(){
+  var L = localStorage.getItem('oreus_lang')||'fr';
+  var T = {
+    fr: {
+      nav_step: 'Étape 1 sur 3',
+      panel_title: 'Importez<br>votre <em>vidéo</em>',
+      panel_sub: 'Glissez-déposez ou sélectionnez un fichier.<br>MP4, MOV, AVI, MKV, WebM · max 500 Mo.',
+      drop_here: 'Déposez ici',
+      dz_title: 'Glissez votre vidéo ici',
+      dz_hint: 'ou <b>cliquez pour parcourir</b> vos fichiers',
+      size_limit: 'Taille maximale : 500 Mo',
+      sending: 'Envoi en cours...',
+      transfer: 'Transfert...',
+      stat_sent: 'Envoyé',
+      stat_speed: 'Vitesse',
+      stat_rem: 'Restant',
+      cancel: 'Annuler'
+    },
+    en: {
+      nav_step: 'Step 1 of 3',
+      panel_title: 'Import<br>your <em>video</em>',
+      panel_sub: 'Drag and drop or select a file.<br>MP4, MOV, AVI, MKV, WebM · max 500 MB.',
+      drop_here: 'Drop here',
+      dz_title: 'Drag your video here',
+      dz_hint: 'or <b>click to browse</b> your files',
+      size_limit: 'Maximum size: 500 MB',
+      sending: 'Uploading...',
+      transfer: 'Transfer...',
+      stat_sent: 'Sent',
+      stat_speed: 'Speed',
+      stat_rem: 'Remaining',
+      cancel: 'Cancel'
+    }
+  };
+  function apply(){
+    document.querySelectorAll('[data-i18n]').forEach(function(el){
+      var k=el.getAttribute('data-i18n');
+      if(T[L]&&T[L][k]) el.innerHTML=T[L][k];
+    });
+    var b=document.getElementById('langBtn');
+    var c=document.getElementById('langCurrent');if(c)c.textContent=L.toUpperCase();var fi=document.getElementById('langItemFr'),ei=document.getElementById('langItemEn');if(fi)fi.className='lang-item'+(L==='fr'?' active':'');if(ei)ei.className='lang-item'+(L==='en'?' active':'');
+    document.documentElement.lang=L;
+  }
+  window.setLang=function(lang){
+    if(L===lang){closeLangMenu();return;}
+    L=lang;
+    localStorage.setItem('oreus_lang',L);
+    apply();
+    closeLangMenu();
+  };
+  window.toggleLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.toggle('open');
+  };
+  window.closeLangMenu=function(){
+    var w=document.getElementById('langWrap');
+    if(w)w.classList.remove('open');
+  };
+  document.addEventListener('click',function(e){
+    var w=document.getElementById('langWrap');
+    if(w&&!w.contains(e.target))w.classList.remove('open');
+  });
+  document.addEventListener('DOMContentLoaded',apply);
+})();
+</script>
+</body>
+</html>
