@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="static/logo.png" alt="Oreus" width="180" />
+  <img src="static/logo-master.png" alt="Oreus" width="220" />
 </p>
 
 # Oreus — AI Video Subtitle Generator

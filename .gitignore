@@ -20,7 +20,6 @@ fonts/
 # Media assets (too large for git — host separately)
 static/bg_*.mp4
 static/prev_*.mp4
-static/logo-master.png
 static/shadrak.jpg
 
 # Credentials / secrets
