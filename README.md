@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/logo.png" alt="Oreus" width="180" />
+</p>
+
 # Oreus — AI Video Subtitle Generator
 
 Oreus is a web application that automatically transcribes and translates video subtitles using AI. Upload a video, choose a target language and a subtitle style, and get a professionally subtitled video back — in minutes.
