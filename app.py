@@ -12,6 +12,7 @@ CORS(app)
 
 import analytics
 analytics.init_db()
+import guard
 ADMIN_KEY = os.environ.get('OREUS_ADMIN_KEY', 'oreus-admin-2026')
 TRACKED_PATHS = {'/', '/upload', '/languages', '/style', '/processing', '/result', '/sous-titres-langues-africaines'}
 
@@ -21,12 +22,38 @@ def _client_ip():
             or (xff.split(',')[0].strip() if xff else '')
             or request.remote_addr or '')
 
+
+def _safe_id(v):
+    # Keep only filesystem-safe chars — blocks path traversal via client ids.
+    return ''.join(ch for ch in str(v or '') if ch.isalnum() or ch in '-_')
+
 @app.before_request
 def _track_visit():
     if request.method == 'GET' and request.path in TRACKED_PATHS:
         analytics.log_visit(request.path, request.headers.get('Referer', ''),
                             _client_ip(), request.headers.get('User-Agent', ''),
                             request.headers.get('Accept-Language', '')[:8])
+
+
+# Endpoints that create work (CPU + Lewis quota). Guarded against bots/flooding.
+_GUARD_BOT  = {'/api/upload', '/api/upload/init', '/api/upload/finalize', '/api/process'}
+_GUARD_RATE = {'/api/upload': 'upload', '/api/upload/init': 'upload', '/api/process': 'process'}
+
+@app.before_request
+def _guard_request():
+    if request.method != 'POST':
+        return
+    path = request.path
+    if path in _GUARD_BOT and guard.is_bot_ua(request.headers.get('User-Agent', '')):
+        return jsonify({'error': 'Automated access is not allowed.'}), 403
+    bucket = _GUARD_RATE.get(path)
+    if bucket:
+        ok, retry = guard.check_rate(_client_ip(), bucket)
+        if not ok:
+            resp = jsonify({'error': 'Trop de requetes. Reessaie dans un moment.'})
+            resp.status_code = 429
+            resp.headers['Retry-After'] = str(retry)
+            return resp
 
 UPLOAD_DIR = Path('uploads')
 OUTPUT_DIR = Path('outputs')
@@ -202,6 +229,10 @@ def process():
             return jsonify({'error': 'Job not found'}), 404
         if jobs[job_id]['status'] not in ('uploaded',):
             return jsonify({'error': 'Already processing'}), 400
+        if guard.count_active_global(jobs) >= guard.GLOBAL_ACTIVE_MAX:
+            return jsonify({'error': 'Serveur occupe, reessaie dans une minute.'}), 503
+        if guard.count_active_for_ip(jobs, jobs[job_id].get('ip', '')) >= guard.PER_IP_ACTIVE_MAX:
+            return jsonify({'error': 'Tu as deja des videos en cours. Attends la fin.'}), 429
         jobs[job_id]['src_lang'] = data.get('src_lang', 'auto')
         jobs[job_id]['tgt_lang'] = data.get('tgt_lang', 'en')
         jobs[job_id]['sub_style'] = data.get('sub_style', 'mrbeast')
@@ -325,6 +356,7 @@ def upload_chunk_part():
         chunk_index = int(ci_raw) if ci_raw is not None else None
     except (ValueError, TypeError):
         chunk_index = None
+    upload_id = _safe_id(upload_id)
     if not upload_id or chunk_index is None or not chunk_file:
         return jsonify({'error': 'Paramètres manquants'}), 400
     chunk_dir = CHUNKS_BASE / upload_id
@@ -340,8 +372,9 @@ def upload_finalize():
     upload_id    = data.get('upload_id')
     filename     = data.get('filename', 'video.mp4')
     total_chunks = data.get('total_chunks', 1)
+    upload_id = _safe_id(upload_id)
     chunk_dir = CHUNKS_BASE / upload_id
-    if not chunk_dir.exists():
+    if not upload_id or not chunk_dir.exists():
         return jsonify({'error': 'upload_id invalide'}), 400
     job_id = str(uuid.uuid4())
     ext    = Path(filename).suffix.lower() or '.mp4'
@@ -379,6 +412,7 @@ def _cleanup_loop():
         _time.sleep(3600)
         now = _time.time()
         try:
+            guard.prune()
             for p in list(UPLOAD_DIR.glob('*')) + list(OUTPUT_DIR.glob('*')):
                 if now - p.stat().st_mtime > 86400:
                     p.unlink(missing_ok=True)
