@@ -2,8 +2,8 @@ import os, subprocess, json, shutil, requests, threading
 import analytics
 from pathlib import Path
 
-DS2_API  = 'https://ds2api-tau-woad.vercel.app/v1/chat/completions'
-DS2_KEY  = 'sk-ds2api-key-1-your-custom-key'
+DS2_API  = 'https://build.lewisnote.com/v1/chat/completions'
+DS2_KEY  = os.environ.get('LEWIS_API_KEY', '')
 
 AFRICAN_LANGS = {
     'sw','yo','ha','ig','am','zu','xh','sn','ny','st','rw','lg','ln','ee',
@@ -223,7 +223,7 @@ def _ds_chat(system, user, timeout=90):
     resp = requests.post(
         DS2_API,
         json={
-            'model': 'deepseek-chat',
+            'model': 'gpt-5.4-mini',
             'messages': [
                 {'role': 'system', 'content': system},
                 {'role': 'user', 'content': user},
