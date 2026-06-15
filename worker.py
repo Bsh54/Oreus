@@ -70,6 +70,8 @@ def _translate_google(segments, tgt_lang):
                 continue
             try:
                 tr = _google_translate_text(t, tgt_lang).strip()
+                tr = tr.replace('—',' ').replace('–',' ').replace('--',' ')
+                tr = ' '.join(tr.split())
                 results.append({'start': seg['start'], 'end': seg['end'], 'text': tr})
             except Exception as e:
                 print(f'[translate_google] erreur ligne: {e}', flush=True)
@@ -341,7 +343,10 @@ def _translate(segments, tgt_lang):
                 except Exception:
                     translated.append(t)
         results.extend(translated)
-    return [{'start': s['start'], 'end': s['end'], 'text': t}
+    def _clean(t):
+        t = t.replace('—', ' ').replace('–', ' ').replace(' -- ', ' ').replace('--', ' ')
+        return ' '.join(t.split())
+    return [{'start': s['start'], 'end': s['end'], 'text': _clean(t)}
             for s, t in zip(segments, results)]
 
 
