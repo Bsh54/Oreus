@@ -286,13 +286,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);
 
     </div>
 
-    <label style="display:flex;align-items:center;gap:12px;max-width:520px;margin:0 auto 14px;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;box-shadow:var(--shadow)">
-      <input type="checkbox" id="enhanceChk" style="width:18px;height:18px;accent-color:var(--primary);cursor:pointer;flex-shrink:0">
-      <span style="text-align:left">
-        <span style="display:block;font-weight:600;color:var(--fg);font-size:14px">Embellir la vidéo (1080p)</span>
-        <span style="display:block;color:var(--fg3);font-size:12px;margin-top:2px">Image plus nette, couleurs ravivées, débruitage. Traitement un peu plus long.</span>
-      </span>
-    </label>
     <button class="btn-next au d3" onclick="goNext()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       Continuer avec ce style
@@ -404,7 +397,7 @@ function pick(card) {
 }
 
 function goNext() {
-  location.href = '/processing?job='+job+'&src='+src+'&tgt='+tgt+'&style='+selected+(document.getElementById('enhanceChk').checked?'&enhance=1':'');
+  location.href = '/processing?job='+job+'&src='+src+'&tgt='+tgt+'&style='+selected;
 }
 </script>
 </body>
