@@ -173,6 +173,22 @@ def _run(job_id, jobs, lock, output_dir):
             print('[worker] analytics:', _e, flush=True)
 
     try:
+        # ── Mode embellissement seul (service distinct, sans sous-titres) ──
+        # On saute transcription + traduction : on embellit juste la vidéo.
+        if j.get('mode') == 'enhance':
+            _set(jobs, lock, job_id, status='processing', progress=10, step=1)
+            out_path = str(output_dir / f'{job_id}_output.mp4')
+            _s = _t.time()
+            _enhance_only(filepath, out_path)
+            t_bn = _t.time() - _s
+            _set(jobs, lock, job_id, progress=100, step=1, status='done', output=out_path)
+            _record('done')
+            try:
+                os.remove(filepath)
+            except Exception:
+                pass
+            return
+
         # ── Step 1 : Transcription ─────────────────────────────────
         _set(jobs, lock, job_id, status='processing', progress=5, step=1)
         _s = _t.time()

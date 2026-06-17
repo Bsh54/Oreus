@@ -212,7 +212,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:
 <script>
 const C = 2 * Math.PI * 96;
 const params = new URLSearchParams(location.search);
-const job = params.get('job'), src = params.get('src') || 'auto', tgt = params.get('tgt') || 'fr', style = params.get('style') || 'mrbeast', subLang = params.get('sub_lang') || '', subSize = params.get('size') || 'medium', subColor = params.get('color') || '', enhance = params.get('enhance') || '';
+const job = params.get('job'), src = params.get('src') || 'auto', tgt = params.get('tgt') || 'fr', style = params.get('style') || 'mrbeast', subLang = params.get('sub_lang') || '', subSize = params.get('size') || 'medium', subColor = params.get('color') || '', enhance = params.get('enhance') || '', mode = params.get('mode') || '';
 if (!job) location.href = '/upload';
 
 let dp = 0, tp = 0, currentStatus = 'queued';
@@ -231,6 +231,19 @@ const PL_FR  = [null, 'Transcription audio...', 'Traduction en cours...', 'Incru
 const PS_FR  = [null, 'Analyse du contenu audio', 'Adaptation dans la langue cible', 'Génération du fichier final'];
 const PL_EN  = [null, 'Audio transcription...', 'Translation in progress...', 'Burning in subtitles...'];
 const PS_EN  = [null, 'Analyzing audio content', 'Adapting to target language', 'Generating final file'];
+
+// Mode embellissement : une seule étape (pas de transcription/traduction).
+if (mode === 'enhance') {
+  PL_FR[1] = 'Embellissement en cours...'; PS_FR[1] = 'Montée en 1080p, couleurs et netteté';
+  PL_EN[1] = 'Enhancing video...';         PS_EN[1] = 'Upscaling to 1080p, color and sharpness';
+  var _c2 = document.getElementById('c2'), _c3 = document.getElementById('c3');
+  if (_c2) _c2.style.display = 'none';
+  if (_c3) _c3.style.display = 'none';
+  var _l1 = document.querySelector('[data-i18n="step1_label"]');
+  if (_l1) { _l1.removeAttribute('data-i18n'); _l1.textContent = _L === 'en' ? 'Enhancing video (1080p)' : 'Embellissement (1080p)'; }
+  var _ns = document.getElementById('navStep');
+  if (_ns) _ns.style.display = 'none';
+}
 
 function getPL(){ return _L === 'en' ? PL_EN : PL_FR; }
 function getPS(){ return _L === 'en' ? PS_EN : PS_FR; }
@@ -303,7 +316,7 @@ async function launch() {
     const r = await fetch('/api/process', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job_id: job, src_lang: src, tgt_lang: tgt, sub_style: style, sub_lang: subLang, sub_size: subSize, sub_color: subColor, enhance: enhance })
+      body: JSON.stringify({ job_id: job, src_lang: src, tgt_lang: tgt, sub_style: style, sub_lang: subLang, sub_size: subSize, sub_color: subColor, enhance: enhance, mode: mode })
     });
     if (!r.ok) { const d = await r.json().catch(() => ({})); showError(d.error || 'Erreur ' + r.status); return; }
     setTimeout(poll, 1000);

@@ -464,6 +464,14 @@ nav.app-nav{
 
 <input type="file" id="fi" accept="video/*" style="display:none" onchange="pickFile(this.files[0])">
 <script>
+// Mode : 'subtitle' (defaut) ou 'enhance' (service embellissement distinct)
+const OREUS_MODE = new URLSearchParams(location.search).get('mode') === 'enhance' ? 'enhance' : 'subtitle';
+if (OREUS_MODE === 'enhance') {
+  document.addEventListener('DOMContentLoaded', function(){
+    const h = document.querySelector('.pl-h1'); if (h) { h.removeAttribute('data-i18n'); h.innerHTML = 'Embellissez<br>votre <em>vidéo</em>'; }
+    const s = document.querySelector('.pl-sub'); if (s) { s.removeAttribute('data-i18n'); s.innerHTML = 'Montée en 1080p, image plus nette et couleurs ravivées.<br>Sans sous-titres. MP4, MOV, AVI, MKV, WebM · max 500 Mo.'; }
+  });
+}
 const CIRC = 2 * Math.PI * 65;
 const CHUNK = 1 * 1024 * 1024;
 let aborted = false, file = null, t0 = 0;
@@ -583,7 +591,11 @@ async function startChunked() {
   if (!fr||!fr.ok){showState('empty');toast('Erreur finalisation');return;}
   const {job_id} = await fr.json();
   targetPct = 100;
-  setTimeout(()=>{window.location.href='/languages?job='+job_id;},600);
+  // Mode embellissement : on saute le choix langue/style, direct au traitement.
+  const _next = OREUS_MODE === 'enhance'
+    ? '/processing?job='+job_id+'&mode=enhance'
+    : '/languages?job='+job_id;
+  setTimeout(()=>{window.location.href=_next;},600);
 }
 
 function fmt(b) {
