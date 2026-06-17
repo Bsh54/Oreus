@@ -81,6 +81,11 @@ def _translate_google(segments, tgt_lang):
 
 
 # ── Whisper singleton — chargé une seule fois au démarrage ────────────────────
+# Modèle configurable (medium par défaut = meilleure fidélité sur CPU).
+_WHISPER_MODEL = os.environ.get('OREUS_WHISPER_MODEL', 'medium')
+# Isolation de voix Demucs avant transcription (active par défaut).
+_USE_DEMUCS = os.environ.get('OREUS_USE_DEMUCS', '1') != '0'
+
 _model = None
 _model_lock = threading.Lock()
 
@@ -90,8 +95,8 @@ def get_whisper():
         with _model_lock:
             if _model is None:
                 from faster_whisper import WhisperModel
-                print('[whisper] Chargement du modèle base...', flush=True)
-                _model = WhisperModel('base', device='cpu', compute_type='int8')
+                print(f'[whisper] Chargement du modèle {_WHISPER_MODEL}...', flush=True)
+                _model = WhisperModel(_WHISPER_MODEL, device='cpu', compute_type='int8')
                 print('[whisper] Modèle prêt.', flush=True)
     return _model
 
@@ -213,11 +218,105 @@ def _run(job_id, jobs, lock, output_dir):
         _record('error', exc)
 
 
+# Demucs est lourd (PyTorch + ~RAM) : on n'en lance qu'un seul à la fois,
+# même si deux jobs tournent en parallèle, pour ne pas saturer la VM.
+_demucs_sem = threading.Semaphore(1)
+
+
+def _extract_full_audio(src, dst):
+    # Audio plein spectre (44.1 kHz stéréo) — ce que Demucs attend pour bien
+    # séparer la voix de la musique. Lève si ffmpeg échoue.
+    cmd = ['ffmpeg', '-y', '-i', src, '-vn', '-ar', '44100', '-ac', '2', dst]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0 or not os.path.exists(dst) or os.path.getsize(dst) == 0:
+        raise RuntimeError(f'extract audio: {r.stderr[-300:]}')
+
+
+def _isolate_vocals(audio_path, workdir):
+    # Sépare la piste voix avec Demucs (htdemucs, --two-stems=vocals).
+    # Renvoie le chemin du vocals.wav, ou None si indisponible/échec (repli).
+    try:
+        import demucs  # noqa: F401
+    except Exception:
+        return None
+    import sys as _sys
+    out_root = os.path.join(workdir, 'demucs')
+    with _demucs_sem:
+        cmd = [
+            _sys.executable, '-m', 'demucs',
+            '--two-stems=vocals', '-n', 'htdemucs',
+            '--segment', '7',             # limite la RAM (max ~7.8s pour htdemucs)
+            '--mp3',                      # encodage via lameenc (torchaudio.save exige torchcodec)
+            '-o', out_root, audio_path,
+        ]
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1800)
+    if r.returncode != 0:
+        print(f'[demucs] échec, repli sans séparation: {r.stderr[-300:]}', flush=True)
+        return None
+    stem = Path(audio_path).stem
+    vocals = os.path.join(out_root, 'htdemucs', stem, 'vocals.mp3')
+    return vocals if os.path.exists(vocals) else None
+
+
+def _clean_voice(src, dst):
+    # Bande de la voix humaine + débruitage FFT, ramené en 16 kHz mono
+    # (entrée idéale pour Whisper). Lève si ffmpeg échoue.
+    cmd = ['ffmpeg', '-y', '-i', src, '-vn',
+           '-af', 'highpass=f=120,lowpass=f=8000,afftdn=nf=-25',
+           '-ar', '16000', '-ac', '1', dst]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0 or not os.path.exists(dst) or os.path.getsize(dst) == 0:
+        raise RuntimeError(f'clean voice: {r.stderr[-300:]}')
+
+
+def _prepare_audio(filepath):
+    # Construit l'audio le plus propre possible pour la transcription :
+    # extraction -> (Demucs voix) -> nettoyage/débruitage 16k mono.
+    # Renvoie (audio_path, workdir_a_nettoyer). En cas d'échec total, renvoie
+    # le fichier original pour ne jamais bloquer un job.
+    import tempfile, uuid as _u
+    workdir = tempfile.mkdtemp(prefix='oreus_aud_')
+    try:
+        full = os.path.join(workdir, f'full_{_u.uuid4().hex[:8]}.wav')
+        _extract_full_audio(filepath, full)
+
+        voice_src = full
+        if _USE_DEMUCS:
+            vocals = _isolate_vocals(full, workdir)
+            if vocals:
+                voice_src = vocals
+                print('[audio] voix isolée (Demucs)', flush=True)
+
+        clean = os.path.join(workdir, f'clean_{_u.uuid4().hex[:8]}.wav')
+        _clean_voice(voice_src, clean)
+        return clean, workdir
+    except Exception as e:
+        print(f'[audio] préparation indisponible, audio brut: {e}', flush=True)
+        return filepath, workdir
+
+
 def _transcribe(filepath, src_lang):
     model = get_whisper()
     lang = None if src_lang == 'auto' else src_lang
-    segs, _ = model.transcribe(filepath, language=lang, beam_size=5)
-    return [{'start': s.start, 'end': s.end, 'text': s.text.strip()} for s in segs]
+    audio_path, workdir = _prepare_audio(filepath)
+    try:
+        segs, _ = model.transcribe(
+            audio_path,
+            language=lang,
+            beam_size=5,
+            vad_filter=True,                                  # coupe musique/bruit sans voix
+            vad_parameters=dict(min_silence_duration_ms=500),
+            condition_on_previous_text=False,                 # stoppe les boucles d'hallucination
+            no_speech_threshold=0.6,
+            compression_ratio_threshold=2.4,
+            temperature=[0.0, 0.2, 0.4, 0.6, 0.8, 1.0],       # repli progressif si peu sûr
+        )
+        return [{'start': s.start, 'end': s.end, 'text': s.text.strip()} for s in segs]
+    finally:
+        try:
+            shutil.rmtree(workdir, ignore_errors=True)
+        except Exception:
+            pass
 
 
 def _ds_chat(system, user, timeout=90):
