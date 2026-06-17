@@ -224,6 +224,7 @@ def upload():
 def process():
     data = request.get_json() or {}
     job_id = data.get('job_id')
+    _free_disk_if_low()   # réagit vite à un afflux (no-op si le disque va bien)
     with lock:
         if job_id not in jobs:
             return jsonify({'error': 'Job not found'}), 404
@@ -314,6 +315,11 @@ def download(job_id):
         j = dict(jobs[job_id])
     if j['status'] != 'done' or not j['output']:
         return jsonify({'error': 'Not ready'}), 400
+    # Marquer comme telecharge : ces videos sont nettoyees en priorite si le disque sature.
+    with lock:
+        if job_id in jobs:
+            jobs[job_id]['downloaded'] = True
+            _save_job(job_id)
     name = f"oreus_{Path(j['filename']).stem}_subtitled.mp4"
     return send_file(j['output'], as_attachment=True, download_name=name, mimetype='video/mp4')
 
@@ -406,6 +412,68 @@ def _new_job(filename, filepath, ip=''):
         'src_lang': None, 'tgt_lang': None, 'sub_lang': '', 'output': None, 'error': None,
         'ip': ip, 'size_mb': round((os.path.getsize(filepath) / (1024 * 1024)) if os.path.exists(filepath) else 0, 2),
     }
+
+
+# ── Nettoyage piloté par l'espace disque (filet de sécurité) ───────────────────
+# Quand le disque devient bas, on supprime tout de suite les vidéos finies —
+# en priorité celles déjà téléchargées — sans attendre le nettoyage 24 h.
+def _disk_free_gb():
+    try:
+        return shutil.disk_usage('/').free / (1024 ** 3)
+    except Exception:
+        return 999.0
+
+
+def _free_disk_if_low():
+    try:
+        min_free = float(os.environ.get('OREUS_DISK_MIN_FREE_GB', 2.5))
+        target   = float(os.environ.get('OREUS_DISK_TARGET_FREE_GB', 4.5))
+    except (TypeError, ValueError):
+        min_free, target = 2.5, 4.5
+    if _disk_free_gb() >= min_free:
+        return
+
+    print(f'[disk] espace bas ({_disk_free_gb():.1f} GB libres), nettoyage...', flush=True)
+    # Candidats = jobs finis dont l'output existe, triés par priorité de suppression :
+    # téléchargés d'abord (clé 0), puis les plus anciens d'abord.
+    with lock:
+        candidates = []
+        for jid, j in jobs.items():
+            if j.get('status') not in ('done', 'error'):
+                continue
+            out = j.get('output')
+            if not out or not os.path.exists(out):
+                continue
+            try:
+                mtime = os.path.getmtime(out)
+            except OSError:
+                mtime = 0
+            candidates.append((0 if j.get('downloaded') else 1, mtime, jid, out))
+        candidates.sort()
+
+    for prio, _, jid, out in candidates:
+        if _disk_free_gb() >= target:
+            break
+        try:
+            os.remove(out)
+        except OSError:
+            pass
+        with lock:
+            jobs.pop(jid, None)
+        (JOBS_DIR / f'{jid}.json').unlink(missing_ok=True)
+        print(f'[disk] supprime {jid} (telecharge={prio == 0})', flush=True)
+
+
+def _disk_loop():
+    while True:
+        _time.sleep(120)
+        try:
+            _free_disk_if_low()
+        except Exception as ex:
+            print(f'[disk] {ex}', flush=True)
+
+
+threading.Thread(target=_disk_loop, daemon=True).start()
 
 
 # ── Nettoyage automatique toutes les heures ────────────────────────────────────
