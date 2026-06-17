@@ -212,7 +212,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:
 <script>
 const C = 2 * Math.PI * 96;
 const params = new URLSearchParams(location.search);
-const job = params.get('job'), src = params.get('src') || 'auto', tgt = params.get('tgt') || 'fr', style = params.get('style') || 'mrbeast', subLang = params.get('sub_lang') || '', subSize = params.get('size') || 'medium', subColor = params.get('color') || '';
+const job = params.get('job'), src = params.get('src') || 'auto', tgt = params.get('tgt') || 'fr', style = params.get('style') || 'mrbeast', subLang = params.get('sub_lang') || '', subSize = params.get('size') || 'medium', subColor = params.get('color') || '', enhance = params.get('enhance') || '';
 if (!job) location.href = '/upload';
 
 let dp = 0, tp = 0, currentStatus = 'queued';
@@ -303,7 +303,7 @@ async function launch() {
     const r = await fetch('/api/process', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ job_id: job, src_lang: src, tgt_lang: tgt, sub_style: style, sub_lang: subLang, sub_size: subSize, sub_color: subColor })
+      body: JSON.stringify({ job_id: job, src_lang: src, tgt_lang: tgt, sub_style: style, sub_lang: subLang, sub_size: subSize, sub_color: subColor, enhance: enhance })
     });
     if (!r.ok) { const d = await r.json().catch(() => ({})); showError(d.error || 'Erreur ' + r.status); return; }
     setTimeout(poll, 1000);

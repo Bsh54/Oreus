@@ -239,6 +239,7 @@ def process():
         jobs[job_id]['sub_lang']  = data.get('sub_lang', '')
         jobs[job_id]['sub_size']  = data.get('sub_size', 'medium')
         jobs[job_id]['sub_color'] = data.get('sub_color', '')
+        jobs[job_id]['enhance']   = bool(data.get('enhance'))
         _save_job(job_id)
     t = threading.Thread(target=process_video, args=(job_id, jobs, lock, OUTPUT_DIR), daemon=True)
     t.start()

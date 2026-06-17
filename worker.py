@@ -205,7 +205,7 @@ def _run(job_id, jobs, lock, output_dir):
         _scale = max(0.6, min(1.8, _scale))
         _s = _t.time()
         _burn(filepath, srt_path, out_path, j.get('sub_style','classic'),
-              _scale, j.get('sub_color') or None)
+              _scale, j.get('sub_color') or None, enhance=bool(j.get('enhance')))
         t_bn = _t.time() - _s
         _set(jobs, lock, job_id, progress=100, step=3, status='done', output=out_path)
         _record('done')
@@ -615,25 +615,59 @@ def _srt_to_ass(srt_path, ass_path, vid_w, vid_h, sub_style, size_scale=1.0, col
         f.write(header + '\n'.join(events) + '\n')
 
 
-def _burn(video_path, srt_path, out_path, sub_style='mrbeast', size_scale=1.0, color_hex=None):
-    if not os.path.exists(srt_path) or os.path.getsize(srt_path) == 0:
+# Mode embellissement : débruitage doux -> montée 1080p (lanczos) -> étalonnage
+# couleur -> accentuation de netteté. 1080p MAX (borne le coût CPU/disque, pas de
+# vrai 4K qui saturerait la VM). Pas de la super-résolution IA, juste un rendu
+# plus net et plus joli, à un coût maîtrisé.
+_ENH_CHAIN = ('hqdn3d=2:1:3:3,scale=-2:1080:flags=lanczos,'
+              'eq=contrast=1.06:saturation=1.12:brightness=0.02:gamma=0.98,'
+              'unsharp=5:5:0.8:3:3:0.4')
+
+
+def _enhance_only(video_path, out_path):
+    # Embellissement sans sous-titres (transcription vide). Repli copie si échec.
+    cmd = ['ffmpeg', '-y', '-i', video_path, '-vf', _ENH_CHAIN,
+           '-c:v', 'libx264', '-preset', 'fast', '-crf', '20',
+           '-c:a', 'aac', '-b:a', '128k', out_path]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f'[enhance] échec, copie brute: {r.stderr[-300:]}', flush=True)
         shutil.copy2(video_path, out_path)
+
+
+def _burn(video_path, srt_path, out_path, sub_style='mrbeast', size_scale=1.0, color_hex=None, enhance=False):
+    if not os.path.exists(srt_path) or os.path.getsize(srt_path) == 0:
+        if enhance:
+            _enhance_only(video_path, out_path)
+        else:
+            shutil.copy2(video_path, out_path)
         return
 
     import uuid as _u
     vid_w, vid_h = _get_video_dims(video_path)
+
+    # En mode embellissement la vidéo passe en 1080p : on génère l'ASS aux
+    # dimensions FINALES pour que les sous-titres soient bien proportionnés.
+    prefix = ''
+    ass_w, ass_h = vid_w, vid_h
+    if enhance and vid_h > 0:
+        ass_h = 1080
+        ass_w = max(2, int(round(vid_w * 1080 / vid_h)) // 2 * 2)
+        prefix = _ENH_CHAIN + ','
+
     tmp_ass = f'/tmp/subs_{_u.uuid4().hex[:8]}.ass'
-    _srt_to_ass(srt_path, tmp_ass, vid_w, vid_h, sub_style, size_scale, color_hex)
+    _srt_to_ass(srt_path, tmp_ass, ass_w, ass_h, sub_style, size_scale, color_hex)
 
     # Escaper les apostrophes dans le chemin (au cas où)
     esc = tmp_ass.replace("'", "'\\''")
-    vf  = f"ass='{esc}'"
-    print(f'[burn] style={sub_style}', flush=True)
+    vf  = prefix + f"ass='{esc}'"
+    crf = '20' if enhance else '22'
+    print(f'[burn] style={sub_style} enhance={enhance}', flush=True)
 
     cmd = [
         'ffmpeg', '-y', '-i', video_path,
         '-vf', vf,
-        '-c:v', 'libx264', '-preset', 'fast', '-crf', '22',
+        '-c:v', 'libx264', '-preset', 'fast', '-crf', crf,
         '-c:a', 'aac', '-b:a', '128k', out_path,
     ]
     res = subprocess.run(cmd, capture_output=True, text=True)
