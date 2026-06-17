@@ -50,7 +50,7 @@ def _guard_request():
     if bucket:
         ok, retry = guard.check_rate(_client_ip(), bucket)
         if not ok:
-            resp = jsonify({'error': 'Trop de requetes. Reessaie dans un moment.'})
+            resp = jsonify({'error': 'Limite atteinte : 3 videos par jour en version gratuite. Reviens demain.'})
             resp.status_code = 429
             resp.headers['Retry-After'] = str(retry)
             return resp

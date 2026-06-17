@@ -33,9 +33,9 @@ def _int_env(name, default):
 # Defaults are generous for a real user (a handful of videos), tight for a flood.
 _LIMITS = {
     'upload':  [(_int_env('OREUS_RL_UPLOAD_BURST', 8),  900),    # 8 / 15 min
-                (_int_env('OREUS_RL_UPLOAD_DAY',  30),  86400)], # 30 / day
+                (_int_env('OREUS_RL_UPLOAD_DAY',   3),  86400)], # free tier : 3 / jour
     'process': [(_int_env('OREUS_RL_PROCESS_BURST', 8), 900),
-                (_int_env('OREUS_RL_PROCESS_DAY', 30),  86400)],
+                (_int_env('OREUS_RL_PROCESS_DAY',  3),  86400)], # free tier : 3 / jour
 }
 
 # Max active (queued + processing) jobs a single IP may hold at once.
