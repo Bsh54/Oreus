@@ -84,10 +84,12 @@ def _translate_google(segments, tgt_lang):
 
 
 # ── Whisper singleton — chargé une seule fois au démarrage ────────────────────
-# Modèle configurable (medium par défaut = meilleure fidélité sur CPU).
-_WHISPER_MODEL = os.environ.get('OREUS_WHISPER_MODEL', 'medium')
-# Isolation de voix Demucs avant transcription (active par défaut).
-_USE_DEMUCS = os.environ.get('OREUS_USE_DEMUCS', '1') != '0'
+# Modèle configurable. Défaut 'small' = léger (~1 Go RAM) et rapide, pour tenir
+# sur de l'hébergement gratuit. Mettre OREUS_WHISPER_MODEL=medium pour + de fidélité.
+_WHISPER_MODEL = os.environ.get('OREUS_WHISPER_MODEL', 'small')
+# Isolation de voix Demucs : DÉSACTIVÉE par défaut (trop lourde RAM/CPU). On garde
+# le débruitage ffmpeg léger. Mettre OREUS_USE_DEMUCS=1 pour la réactiver.
+_USE_DEMUCS = os.environ.get('OREUS_USE_DEMUCS', '0') != '0'
 
 _model = None
 _model_lock = threading.Lock()
