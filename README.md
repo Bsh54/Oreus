@@ -1,3 +1,13 @@
+---
+title: Oreus
+emoji: 🎬
+colorFrom: orange
+colorTo: red
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 <p align="center">
   <img src="static/logo-master.png" alt="Oreus" width="220" />
 </p>

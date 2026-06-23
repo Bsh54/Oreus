@@ -1,0 +1,27 @@
+# Données runtime (recréées au démarrage) et artefacts — pas dans l'image.
+uploads/
+outputs/
+jobs/
+chunks/
+*.db
+*.db-wal
+*.db-shm
+gunicorn.log
+
+# Dev / VCS
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+venv/
+.env
+.env.local
+
+# Sauvegardes serveur éventuelles
+*.bak_*
+worker.py.bak*
+app.py.bak*
+
+# Scripts de déploiement spécifiques à l'ancien serveur (inutiles dans l'image)
+deploy/
+scripts/

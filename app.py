@@ -325,8 +325,9 @@ def download(job_id):
 
 
 # ── Chunked upload ─────────────────────────────────────────────────────────────
-CHUNKS_BASE = Path('/home/shad/oreus/chunks')
-CHUNKS_BASE.mkdir(exist_ok=True)
+# Chemin relatif au répertoire de travail (portable : serveur, Docker/HF, etc.).
+CHUNKS_BASE = Path('chunks')
+CHUNKS_BASE.mkdir(parents=True, exist_ok=True)
 # Nettoyer les sessions de chunks abandonnées (> 2h)
 def _cleanup_old_chunks():
     import time as _t

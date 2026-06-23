@@ -14,13 +14,11 @@ jobs/
 *.db-shm
 gunicorn.log
 
-# Fonts (add your own — not redistributable)
+# Fonts (Arial proprietaire — non redistribuable ; installees via Dockerfile : fonts-liberation)
 fonts/
 
-# Media assets (too large for git — host separately)
-static/bg_*.mp4
-static/prev_*.mp4
-static/shadrak.jpg
+# Runtime chunked-upload dir
+chunks/
 
 # Credentials / secrets
 yt_cookies.txt
