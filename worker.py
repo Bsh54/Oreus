@@ -2,11 +2,11 @@ import os, subprocess, json, shutil, requests, threading
 import analytics
 from pathlib import Path
 
-DS2_API   = 'https://build.lewisnote.com/v1/chat/completions'
-DS2_KEY   = os.environ.get('LEWIS_API_KEY', '')
-# Modèle de traduction : gpt-5.4 = qualité fine (priorité perfection).
-# Configurable : LEWIS_MODEL=gpt-5.4-pro ou gpt-5.5 pour la qualité plafond.
-DS2_MODEL = os.environ.get('LEWIS_MODEL', 'gpt-5.4')
+# Traduction : Google Gemini (remplace Lewis). Clé en variable d'env GEMINI_API_KEY.
+# Modèle 'gemini-flash-lite-latest' = rapide (~3-4s) et excellente qualité FR/EN/argot.
+GEMINI_KEY   = os.environ.get('GEMINI_API_KEY', '')
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-flash-lite-latest')
+GEMINI_URL   = f'https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent'
 
 AFRICAN_LANGS = {
     'sw','yo','ha','ig','am','zu','xh','sn','ny','st','rw','lg','ln','ee',
@@ -340,22 +340,40 @@ def _transcribe(filepath, src_lang):
             pass
 
 
+_GEMINI_SAFETY = [
+    {'category': 'HARM_CATEGORY_HARASSMENT',        'threshold': 'BLOCK_NONE'},
+    {'category': 'HARM_CATEGORY_HATE_SPEECH',       'threshold': 'BLOCK_NONE'},
+    {'category': 'HARM_CATEGORY_SEXUALLY_EXPLICIT', 'threshold': 'BLOCK_NONE'},
+    {'category': 'HARM_CATEGORY_DANGEROUS_CONTENT', 'threshold': 'BLOCK_NONE'},
+]
+
+
 def _ds_chat(system, user, timeout=90):
-    # Un appel DeepSeek, renvoie le contenu texte (ou leve).
-    resp = requests.post(
-        DS2_API,
-        json={
-            'model': DS2_MODEL,
-            'messages': [
-                {'role': 'system', 'content': system},
-                {'role': 'user', 'content': user},
-            ],
-        },
-        headers={'Authorization': f'Bearer {DS2_KEY}', 'Content-Type': 'application/json'},
-        timeout=timeout,
-    )
-    resp.raise_for_status()
-    return resp.json()['choices'][0]['message']['content'].strip()
+    # Un appel Gemini, renvoie le contenu texte (ou leve). Retry court sur
+    # surcharge (503/429). safetySettings BLOCK_NONE pour ne pas bloquer un
+    # sous-titre legitime (argot, sante, argent, etc.).
+    import time as _time
+    body = {
+        'system_instruction': {'parts': [{'text': system}]},
+        'contents': [{'parts': [{'text': user}]}],
+        'generationConfig': {'temperature': 0.3},
+        'safetySettings': _GEMINI_SAFETY,
+    }
+    headers = {'Content-Type': 'application/json', 'X-goog-api-key': GEMINI_KEY}
+    last = ''
+    for attempt in range(3):
+        resp = requests.post(GEMINI_URL, json=body, headers=headers, timeout=timeout)
+        if resp.status_code in (429, 503):
+            last = str(resp.status_code)
+            _time.sleep(1.5 * (attempt + 1))
+            continue
+        resp.raise_for_status()
+        cands = resp.json().get('candidates') or []
+        if not cands:
+            raise ValueError('Gemini: aucune reponse (candidates vide)')
+        parts = (cands[0].get('content') or {}).get('parts') or []
+        return ''.join(p.get('text', '') for p in parts).strip()
+    raise RuntimeError(f'Gemini surcharge ({last})')
 
 
 def _strip_fences(content):
